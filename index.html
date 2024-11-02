@@ -30,7 +30,7 @@
     // player
     const snakeSize = 50;
 
-    let snakeSpeed = 4;
+    let snakeSpeed = 5;
     let snakePosX = 0;
     let snakePosY = canvas.height / 2- snakeSize / 2
 
@@ -40,8 +40,8 @@
     // loop
     function gameLoop() {
       drawStuff(); // hra se kreslí
-      moveStuff(); // hra se hýbe
-      requestAnimationFrame(gameLoop);
+      // moveStuff(); // hra se hýbe
+      setTimeout(gameLoop, 1000 / 15);
     }
     gameLoop();
 
@@ -71,7 +71,22 @@
      * DRAW EVERYTHING
      */
     function drawStuff() {
-      rectangle('white', 0, 0, canvas.width, canvas.height);
+      rectangle('#f1c232', 0, 0, canvas.width, canvas.height);
+
+
+      for (let i =0; i < canvas.width / snakeSize; i++) {
+        for (let j =0; j < canvas.height / snakeSize; j++) {
+          rectangle(
+            '#fff', 
+            snakeSize * i,
+            snakeSize * j, 
+            snakeSize - 1,
+            snakeSize - 1,
+          ); 
+        }
+      }
+
+
       rectangle('black', snakePosX, snakePosY, snakeSize, snakeSize);
     }
     
@@ -87,20 +102,28 @@
      function keyPush(event) {
       switch(event.key) {
         case 'ArrowLeft':
+          if (velocityX !== 1) {
           velocityX = -1;
           velocityY = 0;
+          }
           break;
         case 'ArrowUp':
+          if (velocityY !== 1) {
           velocityX = 0;
           velocityY = -1;
+          }
           break;
         case 'ArrowRight':
+          if (velocityX !== -1) {
           velocityX = 1;
           velocityY = 0;
+          }
           break;
         case 'ArrowDown':
+          if (velocityY !== -1) {
           velocityX = 0;
           velocityY = 1;
+          }
           break;
       }
     } 
