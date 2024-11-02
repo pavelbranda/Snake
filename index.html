@@ -18,18 +18,23 @@
 <body>
   <canvas width="600" height="600"></canvas>
 
+
   <script>
+    // canvas
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext("2d");
 
+    // player
     const snakeSize = 50;
+    let snakePosX = 0;
+    let snakePosY = canvas.height / 2- snakeSize / 2
 
     ctx.fillStyle = 'white'
     ctx.fillRect(0,0, canvas.width, canvas.height)
 
     ctx.fillStyle = 'black';
-    ctx.fillRect(0, canvas.height / 2- snakeSize / 2, snakeSize, snakeSize);          
-
+    ctx.fillRect(snakePosX, snakePosY, snakeSize, snakeSize);
+    
   </script>
 </body>
 </html> 
