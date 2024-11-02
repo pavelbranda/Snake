@@ -36,6 +36,9 @@
 
     let velocityX = 1;
     let velocityY = 0;
+
+    const tileCountX = canvas.width / snakeSize;
+    const tileCountY = canvas.height / snakeSize;
   
     // loop
     function gameLoop() {
@@ -122,8 +125,8 @@
 
     // grid
     function drawGrid() {
-      for (let i =0; i < canvas.width / snakeSize; i++) {
-        for (let j =0; j < canvas.height / snakeSize; j++) {
+      for (let i =0; i < tileCountX; i++) {       // počet dlaždic na ose X
+        for (let j =0; j < tileCountY; j++) {     // počet dlaždic na ose Y
           rectangle(
             '#fff', 
             snakeSize * i,
@@ -138,3 +141,6 @@
   </script>
 </body>
 </html> 
+
+
+
