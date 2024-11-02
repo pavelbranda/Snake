@@ -40,7 +40,7 @@
     // loop
     function gameLoop() {
       drawStuff(); // hra se kreslí
-      // moveStuff(); // hra se hýbe
+      moveStuff(); // hra se hýbe
       setTimeout(gameLoop, 1000 / 15);
     }
     gameLoop();
@@ -71,22 +71,14 @@
      * DRAW EVERYTHING
      */
     function drawStuff() {
+      // background
       rectangle('#f1c232', 0, 0, canvas.width, canvas.height);
 
+      // grid
+      drawGrid()
+      
 
-      for (let i =0; i < canvas.width / snakeSize; i++) {
-        for (let j =0; j < canvas.height / snakeSize; j++) {
-          rectangle(
-            '#fff', 
-            snakeSize * i,
-            snakeSize * j, 
-            snakeSize - 1,
-            snakeSize - 1,
-          ); 
-        }
-      }
-
-
+      // snake
       rectangle('black', snakePosX, snakePosY, snakeSize, snakeSize);
     }
     
@@ -127,6 +119,21 @@
           break;
       }
     } 
+
+    // grid
+    function drawGrid() {
+      for (let i =0; i < canvas.width / snakeSize; i++) {
+        for (let j =0; j < canvas.height / snakeSize; j++) {
+          rectangle(
+            '#fff', 
+            snakeSize * i,
+            snakeSize * j, 
+            snakeSize - 1,
+            snakeSize - 1,
+          ); 
+        }
+      } 
+    }
 
   </script>
 </body>
