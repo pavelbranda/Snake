@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My little Snake game</title>
+  <style>
+    body {
+      background: #f1c232; 
+      text-align: center;
+    }  
+
+    canvas {
+      border: 10px solid #f60143; 
+    }
+  </style>
+</head>
+<body>
+  <canvas width="600" height="600"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext("2d");
+
+    const snakeSize = 50;
+
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0,0, canvas.width, canvas.height)
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, canvas.height / 2- snakeSize / 2, snakeSize, snakeSize);          
+
+  </script>
+</body>
+</html> 
