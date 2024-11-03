@@ -40,14 +40,14 @@
 
    // game
    const fps = 15;
-   const snakeSize = 50;
-   const tileCountX = canvas.width / snakeSize;
-   const tileCountY = canvas.height / snakeSize;
+   const tileSize = 50;
+   const tileCountX = canvas.width / tileSize;
+   const tileCountY = canvas.height / tileSize;
    
    let score = 0;
 
     // player
-    let snakeSpeed = snakeSize;
+    let snakeSpeed = tileSize;
     let snakePosX = 0;
     let snakePosY = canvas.height / 2;
 
@@ -55,6 +55,7 @@
     let velocityY = 0;
 
     let tail = []; 
+    let snakeLength = 5;
 
     // food
     let foodPosX = 0;
@@ -80,13 +81,13 @@
 
       // videogames "collision system"
       // wall collision
-      if (snakePosX > (canvas.width - snakeSize)) {
+      if (snakePosX > (canvas.width - tileSize)) {
         snakePosX = 0;
       }
       if (snakePosX < 0) {
         snakePosX = canvas.width;
       }
-      if (snakePosY > (canvas.height - snakeSize)) {
+      if (snakePosY > (canvas.height - tileSize)) {
         snakePosY = 0;
       }
       if (snakePosY < 0) {
@@ -97,12 +98,13 @@
       tail.push({ x: snakePosX, y: snakePosY });
 
       // forget earliest parts of snake 
-      tail = tail.slice(-1 * 5);
+      tail = tail.slice(-1 * snakeLength);
 
 
       // food collision
       if (snakePosX === foodPosX && snakePosY === foodPosY) {
         title.textContent = ++score;
+        snakeLength++;
         resetFood()
       }
     }
@@ -117,15 +119,15 @@
       drawGrid()
       
       // food
-      rectangle('#05abd7', foodPosX, foodPosY, snakeSize, snakeSize);
+      rectangle('#05abd7', foodPosX, foodPosY, tileSize, tileSize);
 
       // tail
       tail.forEach (snakePart => 
-        rectangle('#555', snakePart.x, snakePart.y, snakeSize, snakeSize)
+        rectangle('#555', snakePart.x, snakePart.y, tileSize, tileSize)
       );
 
       // snake
-      rectangle('black', snakePosX, snakePosY, snakeSize, snakeSize);
+      rectangle('black', snakePosX, snakePosY, tileSize, tileSize);
     }
     
     // draw rectangle
@@ -136,8 +138,8 @@
 
     // randomize food position
     function resetFood(params) {
-      foodPosX = Math.floor(Math.random() * tileCountX) * snakeSize;
-      foodPosY = Math.floor(Math.random() * tileCountY) * snakeSize;
+      foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
+      foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
     }
 
      /**
@@ -178,10 +180,10 @@
         for (let j =0; j < tileCountY; j++) {     // počet dlaždic na ose Y
           rectangle(
             '#fff', 
-            snakeSize * i,
-            snakeSize * j, 
-            snakeSize - 1,
-            snakeSize - 1,
+            tileSize * i,
+            tileSize * j, 
+            tileSize - 1,
+            tileSize - 1,
           ); 
         }
       } 
