@@ -43,6 +43,7 @@
    const snakeSize = 50;
    const tileCountX = canvas.width / snakeSize;
    const tileCountY = canvas.height / snakeSize;
+   
    let score = 0;
 
     // player
@@ -52,6 +53,8 @@
 
     let velocityX = 1;
     let velocityY = 0;
+
+    let tail = []; 
 
     // food
     let foodPosX = 0;
@@ -90,6 +93,9 @@
         snakePosY = canvas.height;
       }
    
+      // tail
+      tail.push({ x: snakePosX, y: snakePosY });
+
 
       // food collision
       if (snakePosX === foodPosX && snakePosY === foodPosY) {
@@ -109,6 +115,11 @@
       
       // food
       rectangle('#05abd7', foodPosX, foodPosY, snakeSize, snakeSize);
+
+      // tail
+      tail.forEach (snakePart => 
+        rectangle('#555', snakePart.x, snakePart.y, snakeSize, snakeSize)
+      );
 
       // snake
       rectangle('black', snakePosX, snakePosY, snakeSize, snakeSize);
