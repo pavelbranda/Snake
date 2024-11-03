@@ -27,17 +27,16 @@
       display: inline-block;
       margin: 0 0.25em;
     }
-
+    
   </style>
 </head>
 <body>
   <canvas width="600" height="600"></canvas>
   <h1>0</h1>
 
-
   <script>
     // listeners 
-    document.addEventListener('keydown', keyPush)
+    document.addEventListener('keydown', keyPush);
 
     // canvas
     const canvas = document.querySelector('canvas');
@@ -73,7 +72,7 @@
     function gameLoop() {
       if ( gameIsRunning ) {
         drawStuff(); // hra se kreslí
-        moveStuff(); // hra se hýbesssssssss
+        moveStuff(); // hra se hýbe
         setTimeout(gameLoop, 1000 / fps);
       }
     }
@@ -104,7 +103,7 @@
       }
       
       // GAME OVER (crash into myself)
-      tail.forEach (( snakePart) => { 
+      tail.forEach(( snakePart) => { 
         if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
           title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
           gameIsRunning = false;
@@ -124,7 +123,7 @@
       if (snakePosX === foodPosX && snakePosY === foodPosY) {
         title.textContent = ++score;
         snakeLength++;
-        resetFood()
+        resetFood();
       }
     }
 
@@ -136,13 +135,13 @@
       rectangle('#f1c232', 0, 0, canvas.width, canvas.height);
 
       // grid
-      drawGrid()
+      drawGrid();
       
       // food
       rectangle('#05abd7', foodPosX, foodPosY, tileSize, tileSize);
 
       // tail
-      tail.forEach (snakePart => 
+      tail.forEach(snakePart => 
         rectangle('#555', snakePart.x, snakePart.y, tileSize, tileSize)
       );
 
@@ -196,19 +195,19 @@
 
     // grid
     function drawGrid() {
-      for (let i =0; i < tileCountX; i++) {       // počet dlaždic na ose X
-        for (let j =0; j < tileCountY; j++) {     // počet dlaždic na ose Y
+      for (let i = 0; i < tileCountX; i++) {       // počet dlaždic na ose X
+        for (let j = 0; j < tileCountY; j++) {      // počet dlaždic na ose Y
           rectangle(
             '#fff', 
             tileSize * i,
             tileSize * j, 
             tileSize - 1,
-            tileSize - 1,
+            tileSize - 1
           ); 
         }
       } 
     }
-
+    
   </script>
 </body>
 </html> 
