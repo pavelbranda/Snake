@@ -13,10 +13,17 @@
     canvas {
       border: 10px solid #f60143; 
     }
+
+    h1 {
+      font-family: 'Verdana';
+      font-weight: bold;
+    }
+
   </style>
 </head>
 <body>
   <canvas width="600" height="600"></canvas>
+  <h1>0</h1>
 
 
   <script>
@@ -25,6 +32,7 @@
 
     // canvas
     const canvas = document.querySelector('canvas');
+    const title = document.querySelector('h1');
     const ctx = canvas.getContext("2d");
 
     // player
@@ -38,18 +46,24 @@
     let velocityY = 0;
 
     // food
-    let foodPosX = 400;
-    let foodPosY = 100;
+    let foodPosX = 0;
+    let foodPosY = 0;
 
+    // game
     const tileCountX = canvas.width / snakeSize;
     const tileCountY = canvas.height / snakeSize;
+
+    let score = 0;
   
     // loop
     function gameLoop() {
       drawStuff(); // hra se kreslí
-      //moveStuff(); // hra se hýbe
+      //moveStuff(); // hra se hýbesssssssss
       setTimeout(gameLoop, 1000 / 15);
     }
+
+
+    resetFood();
     gameLoop();
 
     /**
@@ -77,6 +91,8 @@
 
       // food collision
       if (snakePosX === foodPosX && snakePosY === foodPosY) {
+        score ++;
+        title.textContent = score
         resetFood()
       }
     }
