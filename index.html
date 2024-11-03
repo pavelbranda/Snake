@@ -53,16 +53,17 @@
     let foodPosY = 0;
 
     // game
+    const fps = 15;
+    let score = 0;
     const tileCountX = canvas.width / snakeSize;
     const tileCountY = canvas.height / snakeSize;
 
-    let score = 0;
   
     // loop
     function gameLoop() {
       drawStuff(); // hra se kreslí
       moveStuff(); // hra se hýbesssssssss
-      setTimeout(gameLoop, 1000 / 15);
+      setTimeout(gameLoop, 1000 / fps);
     }
 
 
