@@ -96,6 +96,9 @@
       // tail
       tail.push({ x: snakePosX, y: snakePosY });
 
+      // forget earliest parts of snake 
+      tail = tail.slice(-1 * 5);
+
 
       // food collision
       if (snakePosX === foodPosX && snakePosY === foodPosY) {
