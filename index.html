@@ -38,9 +38,14 @@
     const title = document.querySelector('h1');
     const ctx = canvas.getContext("2d");
 
-    // player
-    const snakeSize = 50;
+   // game
+   const fps = 15;
+   const snakeSize = 50;
+   const tileCountX = canvas.width / snakeSize;
+   const tileCountY = canvas.height / snakeSize;
+   let score = 0;
 
+    // player
     let snakeSpeed = snakeSize;
     let snakePosX = 0;
     let snakePosY = canvas.height / 2;
@@ -52,13 +57,6 @@
     let foodPosX = 0;
     let foodPosY = 0;
 
-    // game
-    const fps = 15;
-    let score = 0;
-    const tileCountX = canvas.width / snakeSize;
-    const tileCountY = canvas.height / snakeSize;
-
-  
     // loop
     function gameLoop() {
       drawStuff(); // hra se kreslí
