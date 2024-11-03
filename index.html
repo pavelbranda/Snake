@@ -17,9 +17,15 @@
     h1 {
       margin-top: 0;
       font-size: 4em;
-      font-family: 'Verdana';
+      font-family: "Avenir Next", Verdana;
       font-weight: bold;
       letter-spacing: -10px;
+    }
+
+    h1 strong {
+      font-size: 1.3em;
+      display: inline-block;
+      margin: 0 0.25em;
     }
 
   </style>
@@ -38,15 +44,15 @@
     const title = document.querySelector('h1');
     const ctx = canvas.getContext("2d");
 
-   // game
-  let gameIsRunning = true;
+    // game
+    let gameIsRunning = true;
 
-   const fps = 15;
-   const tileSize = 50;
-   const tileCountX = canvas.width / tileSize;
-   const tileCountY = canvas.height / tileSize;
+    const fps = 15;
+    const tileSize = 50;
+    const tileCountX = canvas.width / tileSize;
+    const tileCountY = canvas.height / tileSize;
    
-   let score = 0;
+    let score = 0;
 
     // player
     let snakeSpeed = tileSize;
@@ -57,7 +63,7 @@
     let velocityY = 0;
 
     let tail = []; 
-    let snakeLength = 14;
+    let snakeLength = 4;
 
     // food
     let foodPosX = 0;
@@ -67,8 +73,8 @@
     function gameLoop() {
       if ( gameIsRunning ) {
         drawStuff(); // hra se kreslí
-      moveStuff(); // hra se hýbesssssssss
-      setTimeout(gameLoop, 1000 / fps);
+        moveStuff(); // hra se hýbesssssssss
+        setTimeout(gameLoop, 1000 / fps);
       }
     }
   
@@ -97,12 +103,13 @@
         snakePosY = canvas.height;
       }
       
-    // GAME OVER (crash into myself)
-    tail.forEach (( snakePart) => { 
-      if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
-        alert("CRAAAAAAASH!")
-      }
-    });  
+      // GAME OVER (crash into myself)
+      tail.forEach (( snakePart) => { 
+        if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
+          title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
+          gameIsRunning = false;
+        }
+      });  
     
 
 
@@ -120,6 +127,7 @@
         resetFood()
       }
     }
+
     /**
      * DRAW EVERYTHING
      */
