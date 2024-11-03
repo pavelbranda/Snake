@@ -47,7 +47,7 @@
     // loop
     function gameLoop() {
       drawStuff(); // hra se kreslí
-      // moveStuff(); // hra se hýbe
+      //moveStuff(); // hra se hýbe
       setTimeout(gameLoop, 1000 / 15);
     }
     gameLoop();
@@ -77,8 +77,7 @@
 
       // food collision
       if (snakePosX === foodPosX && snakePosY === foodPosY) {
-        foodPosX = Math.floor(Math.random() * tileCountX) * snakeSize;
-        foodPosY = Math.floor(Math.random() * tileCountY) * snakeSize;
+        resetFood()
       }
     }
     /**
@@ -102,6 +101,12 @@
     function rectangle(color, x, y, width, height) {
       ctx.fillStyle = color;
       ctx.fillRect(x, y, width, height);
+    }
+
+    // randomize food position
+    function resetFood(params) {
+      foodPosX = Math.floor(Math.random() * tileCountX) * snakeSize;
+      foodPosY = Math.floor(Math.random() * tileCountY) * snakeSize;
     }
 
      /**
