@@ -105,8 +105,7 @@
       // GAME OVER (crash into myself)
       tail.forEach(( snakePart) => { 
         if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
-          title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
-          gameIsRunning = false;
+          gameOver();
         }
       });  
     
@@ -161,6 +160,12 @@
       foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
     }
 
+    // game over 
+    function gameOver () {
+      title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
+      gameIsRunning = false;
+    }
+
      /**
      * KEYBOARD
      */
@@ -207,10 +212,8 @@
         }
       } 
     }
-    
+
   </script>
 </body>
 </html> 
-
-
 
