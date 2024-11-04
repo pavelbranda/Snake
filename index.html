@@ -158,9 +158,15 @@
     function resetFood(params) {
       foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
       foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
+
+      // dont spawn food on snake head
+      if (foodPosX ===snakePosX && foodPosY === snakePosY) {
+        resetFood()
+      }
     }
 
-    // game over 
+    // GAME OVER
+    // KEYBOARD restarts game
     function gameOver () {
       title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
       gameIsRunning = false;
@@ -221,3 +227,6 @@
 </body>
 </html> 
 
+<!-- NOTES -->
+ <!-- Implemente PAUSE -->
+  <!-- Vasho Patejdl backgroun music -->
