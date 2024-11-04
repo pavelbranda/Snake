@@ -152,6 +152,12 @@
 
       // randomize food position
       function resetFood(params) {
+        // GAME OVER (nowhere to go)
+        if (snakeLength === tileCountX * tileCountY) {
+          gameOver();
+        }
+
+
         foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
         foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
 
@@ -236,3 +242,4 @@
 <!-- NOTES -->
 <!-- Implemente PAUSE -->
 <!-- Vasho Patejdl backgroun music -->
+ <!-- Enter your score  and save it -->
