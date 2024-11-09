@@ -1,27 +1,32 @@
-// listeners
+// Listeners
 document.addEventListener("keydown", keyPush);
 
-// canvas
+// Canvas
 const canvas = document.querySelector("canvas");
 const title = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
 
-// game
+// Game
 let gameIsRunning = true;
 
-// game constants
-const fps = 8;
-const interval = 1000 / fps; // interval between frames in miliseconds
+// Game Settings
+const gameSettings = {
+  allowEdgeWrapping: false, // Set to false for wall collisions
+  fps: 8, 
+};
+
+// Game Constants
+const interval = 1000 / gameSettings.fps; // interval between frames in miliseconds
 const tileSize = 50;
+
 const tileCountX = canvas.width / tileSize;
 const tileCountY = canvas.height / tileSize;
 
-
-// game state - changes over time
+// Game State - changes over time
 let lastTime = 0; // timestamp of the last frame
 let score = 0;
 
-// player
+// Player
 let snakeSpeed = tileSize;
 let snakePosX = 0;
 let snakePosY = canvas.height / 2;
@@ -32,11 +37,11 @@ let velocityY = 0;
 let tail = [];
 let snakeLength = 4;
 
-// food
+// Food
 let foodPosX = 0;
 let foodPosY = 0;
 
-// loop
+// Loop
 function gameLoop(currentTime) {
   if (gameIsRunning) {
     // calculate the time since the last frame
@@ -58,27 +63,56 @@ requestAnimationFrame(gameLoop);
 
 resetFood();
 
+
 /**
  * MOVE EVERYTHING
  */
 function moveStuff() {
+  // update snake's position
   snakePosX += snakeSpeed * velocityX;
   snakePosY += snakeSpeed * velocityY;
 
-  // videogames "collision system"
-  // wall collision
+  // check gameSettings to decide behaviour
+  if (gameSettings.allowEdgeWrapping) {
+    wrapAroundBorders();
+  } else {
+     checkWallCollision();
+  }
+
+  
+// COLLISIONS (videogames "collision system")
+
+ 
+function wrapAroundBorders() {
+  // Handle horizontal border go through
   if (snakePosX > canvas.width - tileSize) {
     snakePosX = 0;
-  }
+     }
   if (snakePosX < 0) {
     snakePosX = canvas.width;
-  }
+    }
+
+    // Handle vertical border go through
   if (snakePosY > canvas.height - tileSize) {
     snakePosY = 0;
-  }
+    }
   if (snakePosY < 0) {
     snakePosY = canvas.height;
-  }
+    }
+}
+
+function checkWallCollision() {
+  // Check horizontal border collision
+  if (snakePosX > canvas.width - tileSize || snakePosX < 0) {
+    gameOver();
+     }
+
+  // Check vertical border collision
+  if (snakePosY > canvas.height - tileSize || snakePosY < 0) {
+    gameOver();
+    }  
+}
+  
 
   // GAME OVER (crash into myself)
   tail.forEach((snakePart) => {
