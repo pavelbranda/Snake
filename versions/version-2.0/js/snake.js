@@ -9,11 +9,16 @@ const ctx = canvas.getContext("2d");
 // game
 let gameIsRunning = true;
 
+// game constants
 const fps = 8;
+const interval = 1000 / fps; // interval between frames in miliseconds
 const tileSize = 50;
 const tileCountX = canvas.width / tileSize;
 const tileCountY = canvas.height / tileSize;
 
+
+// game state - changes over time
+let lastTime = 0; // timestamp of the last frame
 let score = 0;
 
 // player
@@ -32,13 +37,24 @@ let foodPosX = 0;
 let foodPosY = 0;
 
 // loop
-function gameLoop() {
+function gameLoop(currentTime) {
   if (gameIsRunning) {
-    drawStuff(); // hra se kreslí
-    moveStuff(); // hra se hýbe
-    setTimeout(gameLoop, 1000 / fps);
+    // calculate the time since the last frame
+    const deltaTime = currentTime - lastTime;
+
+    // if enough time has passed, render the next frame
+    if(deltaTime >= interval) {
+      lastTime = currentTime;
+      drawStuff(); // hra se kreslí
+      moveStuff(); // hra se hýbe
+    }
+    
+    // request the next frame
+    requestAnimationFrame(gameLoop);
   }
 }
+// start the game loop wot the initial timestamp
+requestAnimationFrame(gameLoop);
 
 resetFood();
 gameLoop();
