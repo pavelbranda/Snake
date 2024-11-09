@@ -9,7 +9,7 @@ const ctx = canvas.getContext("2d");
 // game
 let gameIsRunning = true;
 
-const fps = 15;
+const fps = 8;
 const tileSize = 50;
 const tileCountX = canvas.width / tileSize;
 const tileCountY = canvas.height / tileSize;
@@ -97,21 +97,30 @@ function drawStuff() {
   drawGrid();
 
   // food
-  rectangle("#05abd7", foodPosX, foodPosY, tileSize, tileSize);
+  circle("#05abd7", foodPosX, foodPosY, tileSize, tileSize);
 
   // tail
   tail.forEach((snakePart) =>
-    rectangle("#555", snakePart.x, snakePart.y, tileSize, tileSize)
+    circle("#555", snakePart.x, snakePart.y, tileSize, tileSize)
   );
 
   // snake
-  rectangle("black", snakePosX, snakePosY, tileSize, tileSize);
+  circle("black", snakePosX, snakePosY, tileSize, tileSize);
 }
 
-// draw rectangle
+// draw rectangle - used in: background, drawGrid()
 function rectangle(color, x, y, width, height) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, width, height);
+}
+
+// draw circle - used in: snake, tail, food
+function circle(color, x, y, width, height) {
+  ctx.fillStyle = color;
+  //ctx.fillRect(x, y, width, height);
+  ctx.beginPath();
+  ctx.arc(x + tileSize / 2, y + tileSize / 2, tileSize / 2, 0, 2 * Math.PI)
+  ctx.fill();
 }
 
 // randomize food position
