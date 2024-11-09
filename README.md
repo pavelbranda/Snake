@@ -3,19 +3,17 @@
 **Welcome to Snake!**
 A simple Snake game built with JavaScript, HTML, and CSS.
 
+## How to play
 - Move the snake using arrow keys.
 - Eat food to grow.
-- Avoid hitting walls or yourself.
+- You can go through walls.
+- Avoid hitting yourself.
+- Restart the game by pressing any key.
 
 ## Features
 - Classic snake gameplay
 - Customizable grid size
 - Scoring system
-
-## Future Enhancements (To-Do)
-- [ ] Add difficulty levels
-- [ ] High score tracking
-- [ ] Game pause and resume feature
 
 ## Installation
 Clone the repository and open `index.html` in your browser to play.
