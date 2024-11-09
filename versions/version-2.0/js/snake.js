@@ -57,7 +57,6 @@ function gameLoop(currentTime) {
 requestAnimationFrame(gameLoop);
 
 resetFood();
-gameLoop();
 
 /**
  * MOVE EVERYTHING
