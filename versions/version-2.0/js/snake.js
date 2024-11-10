@@ -6,9 +6,6 @@ const canvas = document.querySelector("canvas");
 const title = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
 
-// Game
-let gameIsRunning = true;
-
 // Game Settings
 const gameSettings = {
   allowEdgeWrapping: false, // Set to false for wall collisions
@@ -18,12 +15,12 @@ const gameSettings = {
 // Game Constants
 const interval = 1000 / gameSettings.fps; // interval between frames in miliseconds
 const tileSize = 50;
-
 const tileCountX = canvas.width / tileSize;
 const tileCountY = canvas.height / tileSize;
 
 // Game State - changes over time
 let lastTime = 0; // timestamp of the last frame
+let gameIsRunning = true;
 let score = 0;
 
 // Player
@@ -41,28 +38,27 @@ let snakeLength = 4;
 let foodPosX = 0;
 let foodPosY = 0;
 
-// Loop
+
+// Main Game Loop
 function gameLoop(currentTime) {
   if (gameIsRunning) {
     // calculate the time since the last frame
     const deltaTime = currentTime - lastTime;
 
     // if enough time has passed, render the next frame
-    if(deltaTime >= interval) {
-      lastTime = currentTime;
-      drawStuff(); // hra se kreslí
-      moveStuff(); // hra se hýbe
+    if (deltaTime >= interval) {
+      lastTime += interval;
+      drawStuff(); // drawing the game
+      moveStuff(); // moving the game
     }
     
     // request the next frame
     requestAnimationFrame(gameLoop);
   }
 }
-// start the game loop wot the initial timestamp
+// start the game loop with the initial timestamp
 requestAnimationFrame(gameLoop);
-
 resetFood();
-
 
 /**
  * MOVE EVERYTHING
@@ -76,13 +72,22 @@ function moveStuff() {
   if (gameSettings.allowEdgeWrapping) {
     wrapAroundBorders();
   } else {
-     checkWallCollision();
+    checkWallCollision();
   }
 
-  
-// COLLISIONS (videogames "collision system")
+  checkTailCollision();
+  checkFoodCollision();
 
- 
+  // tail - add the current position to the tail
+  tail.push({ x: snakePosX, y: snakePosY });
+
+  // keep only the latest positions up to the length of the snake
+  tail = tail.slice(-1 * snakeLength);
+
+  
+}
+
+// COLLISIONS (videogames "collision system") 
 function wrapAroundBorders() {
   // Handle horizontal border go through
   if (snakePosX > canvas.width - tileSize) {
@@ -101,6 +106,7 @@ function wrapAroundBorders() {
     }
 }
 
+// GAME OVER (crash into wall)
 function checkWallCollision() {
   // Check horizontal border collision
   if (snakePosX > canvas.width - tileSize || snakePosX < 0) {
@@ -112,43 +118,38 @@ function checkWallCollision() {
     gameOver();
     }  
 }
-  
 
-  // GAME OVER (crash into myself)
+// GAME OVER (crash into myself)
+function checkTailCollision() {
   tail.forEach((snakePart) => {
     if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
       gameOver();
     }
   });
-
-  // tail
-  tail.push({ x: snakePosX, y: snakePosY });
-
-  // forget earliest parts of snake
-  tail = tail.slice(-1 * snakeLength);
-
-  // food collision
+}
+  
+function checkFoodCollision() {
   if (snakePosX === foodPosX && snakePosY === foodPosY) {
     title.textContent = ++score;
     snakeLength++;
     resetFood();
   }
-}
-
+} 
+ 
 /**
  * DRAW EVERYTHING
  */
 function drawStuff() {
-  // background
+  // Background
   rectangle("#f1c232", 0, 0, canvas.width, canvas.height);
 
-  // grid
+  // Grid
   drawGrid();
 
-  // food
+  // Food
   circle("#05abd7", foodPosX, foodPosY, tileSize, tileSize);
 
-  // tail
+  // Tail
   tail.forEach((snakePart) =>
     circle("#555", snakePart.x, snakePart.y, tileSize, tileSize)
   );
@@ -166,7 +167,6 @@ function rectangle(color, x, y, width, height) {
 // draw circle - used in: snake, tail, food
 function circle(color, x, y, width, height) {
   ctx.fillStyle = color;
-  //ctx.fillRect(x, y, width, height);
   ctx.beginPath();
   ctx.arc(x + tileSize / 2, y + tileSize / 2, tileSize / 2, 0, 2 * Math.PI)
   ctx.fill();
@@ -178,7 +178,6 @@ function resetFood(params) {
   if (snakeLength === tileCountX * tileCountY) {
     gameOver();
   }
-
 
   foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
   foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
@@ -199,7 +198,7 @@ function resetFood(params) {
 }
 
 // GAME OVER
-// KEYBOARD restarts game
+// KEYBOARD restarts the game
 function gameOver() {
   title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
   gameIsRunning = false;
@@ -241,7 +240,7 @@ function keyPush(event) {
   }
 }
 
-// grid
+// Grid
 function drawGrid() {
   for (let i = 0; i < tileCountX; i++) {
     // počet dlaždic na ose X
