@@ -1,3 +1,7 @@
+// ----------------------------------
+// LISTENERS AND CANVAS SETUP
+// ----------------------------------
+
 // Listeners
 document.addEventListener("keydown", keyPush);
 
@@ -6,20 +10,28 @@ const canvas = document.querySelector("canvas");
 const title = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
 
+// ----------------------------------
+// GAME SETTINGS AND CONSTANTS
+// ----------------------------------
+
 // Game Settings
 const gameSettings = {
-  allowEdgeWrapping: false, // Set to false for wall collisions
+  wallCollisions: true, // Set to true for wall collisions
   fps: 8, 
 };
 
 // Game Constants
-const interval = 1000 / gameSettings.fps; // interval between frames in miliseconds
+const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
 const tileSize = 50;
 const tileCountX = canvas.width / tileSize;
 const tileCountY = canvas.height / tileSize;
 
-// Game State - changes over time
-let lastTime = 0; // timestamp of the last frame
+// ----------------------------------
+// GAME STATE (CHANGES OVER TIME)
+// ----------------------------------
+
+// Game State
+let lastTime = 0; // Timestamp of the last frame
 let gameIsRunning = true;
 let score = 0;
 
@@ -38,57 +50,71 @@ let snakeLength = 4;
 let foodPosX = 0;
 let foodPosY = 0;
 
+// ----------------------------------
+// INITIALIZATION AND STARTUP
+// ----------------------------------
 
-// Main Game Loop
+// Start the game loop with the initial timestamp
+resetFood();
+requestAnimationFrame(gameLoop);
+
+// ----------------------------------
+// MAIN GAME LOOP
+// ----------------------------------
 function gameLoop(currentTime) {
   if (gameIsRunning) {
-    // calculate the time since the last frame
+    // Calculate the time since the last frame
     const deltaTime = currentTime - lastTime;
 
-    // if enough time has passed, render the next frame
+    // If enough time has passed, render the next frame
     if (deltaTime >= interval) {
       lastTime += interval;
-      drawStuff(); // drawing the game
-      moveStuff(); // moving the game
+      drawStuff(); // Drawing the game
+      moveStuff(); // Moving the game
     }
     
-    // request the next frame
+    // Request the next frame
     requestAnimationFrame(gameLoop);
   }
 }
-// start the game loop with the initial timestamp
-requestAnimationFrame(gameLoop);
-resetFood();
+
+// ----------------------------------
+// GAME LOGIC FUNCTIONS
+// ----------------------------------
 
 /**
- * MOVE EVERYTHING
+ * MOVE EVERYTHING - updates snake position, check collisions, handle tail grown.
  */
 function moveStuff() {
-  // update snake's position
+  // Update snake position
   snakePosX += snakeSpeed * velocityX;
   snakePosY += snakeSpeed * velocityY;
 
-  // check gameSettings to decide behaviour
-  if (gameSettings.allowEdgeWrapping) {
-    wrapAroundBorders();
-  } else {
+  // Handle edge wrapping or wall collisions
+  // Check gameSettings to decide behavior
+  if (gameSettings.wallCollisions) {
     checkWallCollision();
+  } else {
+    goThroughWalls();
   }
 
+  // Check collisions
   checkTailCollision();
   checkFoodCollision();
 
-  // tail - add the current position to the tail
-  tail.push({ x: snakePosX, y: snakePosY });
-
-  // keep only the latest positions up to the length of the snake
-  tail = tail.slice(-1 * snakeLength);
-
-  
+  // Update tail
+  tail.push({ x: snakePosX, y: snakePosY });  // Add the current position to the tail
+  tail = tail.slice(-1 * snakeLength);        // Keep only the latest positions up to the length of the snake 
 }
 
+// ----------------------------------
 // COLLISIONS (videogames "collision system") 
-function wrapAroundBorders() {
+// ----------------------------------
+
+/**
+ * Hadles wrapping around the screen edges
+ */
+function goThroughWalls() {
   // Handle horizontal border go through
   if (snakePosX > canvas.width - tileSize) {
     snakePosX = 0;
@@ -106,7 +132,9 @@ function wrapAroundBorders() {
     }
 }
 
-// GAME OVER (crash into wall)
+/**
+ * GAME OVER (crash into wall)
+ */
 function checkWallCollision() {
   // Check horizontal border collision
   if (snakePosX > canvas.width - tileSize || snakePosX < 0) {
@@ -119,7 +147,9 @@ function checkWallCollision() {
     }  
 }
 
-// GAME OVER (crash into myself)
+/**
+ * GAME OVER (crash into myself)
+ */
 function checkTailCollision() {
   tail.forEach((snakePart) => {
     if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
@@ -127,7 +157,10 @@ function checkTailCollision() {
     }
   });
 }
-  
+
+/**
+ * Increase score and grow the snake whe eat food.
+ */
 function checkFoodCollision() {
   if (snakePosX === foodPosX && snakePosY === foodPosY) {
     title.textContent = ++score;
@@ -135,7 +168,11 @@ function checkFoodCollision() {
     resetFood();
   }
 } 
- 
+
+// ----------------------------------
+// DRAWING FUNCTIONS
+// ----------------------------------
+
 /**
  * DRAW EVERYTHING
  */
