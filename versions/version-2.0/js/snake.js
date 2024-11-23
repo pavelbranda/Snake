@@ -16,7 +16,7 @@ const ctx = canvas.getContext("2d");
 
 // Game Settings
 const gameSettings = {
-  wallCollisions: true, // Set to true for wall collisions
+  wallCollisions: false, // Set to true for wall collisions
   fps: 8, 
 };
 
@@ -90,8 +90,7 @@ function moveStuff() {
   snakePosX += snakeSpeed * velocityX;
   snakePosY += snakeSpeed * velocityY;
 
-  // Handle edge wrapping or wall collisions
-  // Check gameSettings to decide behavior
+  // Handle if goThroughWalls or wallCollisions - check gameSettings to decide behavior.
   if (gameSettings.wallCollisions) {
     checkWallCollision();
   } else {
@@ -174,34 +173,32 @@ function checkFoodCollision() {
 // ----------------------------------
 
 /**
- * DRAW EVERYTHING
+ * DRAW EVERYTHING - draw entire game state.
  */
 function drawStuff() {
-  // Background
-  rectangle("#f1c232", 0, 0, canvas.width, canvas.height);
+  rectangle("#f1c232", 0, 0, canvas.width, canvas.height); // Background
+  drawGrid(); // Grid lines
+  circle("#05abd7", foodPosX, foodPosY, tileSize, tileSize); // Food
 
-  // Grid
-  drawGrid();
-
-  // Food
-  circle("#05abd7", foodPosX, foodPosY, tileSize, tileSize);
-
-  // Tail
+  // Snake tail
   tail.forEach((snakePart) =>
     circle("#555", snakePart.x, snakePart.y, tileSize, tileSize)
   );
 
-  // snake
-  circle("black", snakePosX, snakePosY, tileSize, tileSize);
+  circle("black", snakePosX, snakePosY, tileSize, tileSize); // Snake head
 }
 
-// draw rectangle - used in: background, drawGrid()
+/**
+ * Draw a rectangle on the canva - used in: background, drawGrid().
+ */
 function rectangle(color, x, y, width, height) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, width, height);
 }
 
-// draw circle - used in: snake, tail, food
+/**
+ * Draw a circle on the canvas.
+ */
 function circle(color, x, y, width, height) {
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -209,8 +206,31 @@ function circle(color, x, y, width, height) {
   ctx.fill();
 }
 
-// randomize food position
-function resetFood(params) {
+/**
+ * Draw the grid.
+ */
+function drawGrid() {
+  for (let i = 0; i < tileCountX; i++) {    // No. of tiles on X Axis
+    for (let j = 0; j < tileCountY; j++) {  // No. of tiles on Y Axis
+      rectangle(
+        "#fff",
+        tileSize * i,
+        tileSize * j,
+        tileSize - 1,
+        tileSize - 1
+      );
+    }
+  }
+}
+
+// ----------------------------------
+// UTILITY FUNCTIONS
+// ----------------------------------
+
+/**
+ * Randomizes food position and ensures it won't be re-spawn on any part of snake. 
+ */
+function resetFood() {
   // GAME OVER (nowhere to go)
   if (snakeLength === tileCountX * tileCountY) {
     gameOver();
@@ -219,12 +239,12 @@ function resetFood(params) {
   foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
   foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
 
-  // dont spawn food on snake head
+  // Don't spawn food on snake head
   if (foodPosX === snakePosX && foodPosY === snakePosY) {
     resetFood();
   }
 
-  // dont spawn food on any snake part
+  // Don't spawn food on any snake part
   if (
     tail.some(
       (snakePart) => snakePart.x === foodPosX && snakePart.y === foodPosY
@@ -234,15 +254,21 @@ function resetFood(params) {
   }
 }
 
-// GAME OVER
-// KEYBOARD restarts the game
+/**
+ * Ends the game and display the final score.
+ * Wait for user to restart the game by pushing a keyboard.
+ */
 function gameOver() {
   title.innerHTML = `☠️ <strong> ${score} </strong> ☠️`;
   gameIsRunning = false;
 }
 
+// ----------------------------------
+// INPUT HANDLING
+// ----------------------------------
+
 /**
- * KEYBOARD
+ * KEYBOARD - game controls.
  */
 function keyPush(event) {
   switch (event.key) {
@@ -274,22 +300,5 @@ function keyPush(event) {
       // restart game
       if (!gameIsRunning) location.reload();
       break;
-  }
-}
-
-// Grid
-function drawGrid() {
-  for (let i = 0; i < tileCountX; i++) {
-    // počet dlaždic na ose X
-    for (let j = 0; j < tileCountY; j++) {
-      // počet dlaždic na ose Y
-      rectangle(
-        "#fff",
-        tileSize * i,
-        tileSize * j,
-        tileSize - 1,
-        tileSize - 1
-      );
-    }
   }
 }
