@@ -53,10 +53,9 @@ let foodPosY = 0;
 // ----------------------------------
 // INITIALIZATION AND STARTUP
 // ----------------------------------
-
-// Start the game loop with the initial timestamp
-resetFood();
-requestAnimationFrame(gameLoop);
+resetFood(); // Place the first food item on the board before starting the game
+drawStuff(); // Draw the board immediately to prevent blinking
+requestAnimationFrame(gameLoop); // Start the game loop with the initial timestamp
 
 // ----------------------------------
 // MAIN GAME LOOP
