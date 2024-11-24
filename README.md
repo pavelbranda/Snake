@@ -1,7 +1,8 @@
-# Snake Game
+# Snake Game🐍
 
 **Welcome to Snake!**
-A simple Snake game built with JavaScript, HTML, and CSS.
+<br>A simple Snake game built with JavaScript, HTML, and CSS.
+**GIF_placeholder**
 
 ## Features
 - Classic snake gameplay
