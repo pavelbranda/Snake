@@ -15,5 +15,5 @@ A simple Snake game built with JavaScript, HTML, and CSS.
 - Avoid hitting yourself.
 - Restart the game by pressing any key.
 
-## Installation
-Clone the repository and open `index.html` in your browser to play.
+## PLAY HERE:
+[Snake Game](https://pavelbranda.github.io/Snake/)
