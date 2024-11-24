@@ -16,4 +16,4 @@ A simple Snake game built with JavaScript, HTML, and CSS.
 - Restart the game by pressing any key.
 
 ## PLAY HERE:
-[Snake Game](https://pavelbranda.github.io/Snake/)
+[Snake Game🐍🐍🐍](https://pavelbranda.github.io/Snake/)
