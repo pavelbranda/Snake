@@ -270,6 +270,12 @@ function gameOver() {
  * KEYBOARD - game controls.
  */
 function keyPush(event) {
+  // Prevent default behavior for arrow keyPush
+  if (["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"].includes(event.key)) {
+    event.preventDefault();
+  }
+
+  // Handle game controls
   switch (event.key) {
     case "ArrowLeft":
       if (velocityX !== 1) {
