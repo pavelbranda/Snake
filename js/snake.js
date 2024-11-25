@@ -271,7 +271,8 @@ function gameOver() {
  */
 function keyPush(event) {
   // Prevent default behavior for arrow keyPush
-  if (["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"].includes(event.key)) {
+  const keysToPrevent = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];
+  if (keysToPrevent.includes(event.key)) {
     event.preventDefault();
   }
 
