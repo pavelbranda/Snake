@@ -262,6 +262,22 @@ function gameOver() {
   gameIsRunning = false;
 }
 
+function resizeCanvas() {
+  // Set the canvas size to 90% of the smallest viewport dimension
+  const newSize = Math.min(window.innerWidth, window.innerHeight) * 0.9;
+
+  // Update the canvas width and height
+  canvas.width = newSize;
+  canvas.height = newSize;
+
+  console.log(`Canvas resized to: ${newSize}px`);
+}
+
+// Call resizeCanvas initially and on window resize
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+
 // ----------------------------------
 // INPUT HANDLING
 // ----------------------------------
