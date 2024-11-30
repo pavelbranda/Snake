@@ -262,15 +262,19 @@ function gameOver() {
   gameIsRunning = false;
 }
 
+// THIS IS NEW!
 function resizeCanvas() {
+  // Get the available height minus the score element height
+  const availableHeight = window.innerHeight - title.offsetHeight;
+  console.log(`Available height for canvas: ${availableHeight}px`);
+
   // Set the canvas size to 90% of the smallest viewport dimension
-  const newSize = Math.min(window.innerWidth, window.innerHeight) * 0.9;
+  const newSize = Math.min(window.innerWidth, availableHeight) * 0.9;
+  console.log(`Canvas resized to: ${newSize}px`); 
 
   // Update the canvas width and height
   canvas.width = newSize;
   canvas.height = newSize;
-
-  console.log(`Canvas resized to: ${newSize}px`);
 }
 
 // Call resizeCanvas initially and on window resize
@@ -287,7 +291,7 @@ window.addEventListener("resize", resizeCanvas);
  */
 function keyPush(event) {
   // Prevent default behavior for arrow keyPush
-  const keysToPrevent = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];
+  const keysToPrevent = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];  // What about backspace ?!
   if (keysToPrevent.includes(event.key)) {
     event.preventDefault();
   }

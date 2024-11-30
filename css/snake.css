@@ -2,23 +2,26 @@ body {
   background: #f1c232;
   text-align: center;
 
-  /* THIS IS NEW */
-  /* display: flex; /* Use flexbox for alignment */
-  /* flex-direction: column; /* Stack elements vertically */
-  /* justify-content: center; /* Center elements vertically */
-  /* align-items: center; /* Center elements horizontally */
-  /* height: 100vh; /* Full height of the viewport */
-  /* margin: 0; /* Remove default margin */
+  padding: 20px 0; /* Top and bottom padding */
+
+  /* THIS IS NEW! */
+  /* display: flex;  /*  Use flexbox for alignment */
+  /* flex-direction: column;  /*  Stack elements vertically */
+  /* justify-content: center;  /*  Center elements vertically */
+  /* align-items: center;  Center elements horizontally */
+  /* height: 100vh; /*  Full height of the viewport */
+  margin: 0; /* Remove default margin */
 }
 
 canvas {
   border: 10px solid #f60143;
-  /* THIS IS NEW */
-  /* display: block; Remove extra whitespace */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 90vw; /* Scale to 90% of the viewport width */
-  height: auto; /* Maintain aspect ratio */
-  max-height: 90vh; /* Ensure it doesn’t overflow vertically */
+  
+  /* THIS IS NEW! */
+  /* display: block; /*Remove extra whitespace */
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); */
+  /* width: 90vw; Scale to 90% of the viewport width */
+  /* height: auto; Maintain aspect ratio */
+  /* max-height: 90vh; Ensure it doesn’t overflow vertically */
 }
 
 h1 {
