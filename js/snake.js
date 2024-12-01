@@ -22,9 +22,15 @@ const gameSettings = {
 
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
-const tileSize = 50;
-const tileCountX = canvas.width / tileSize;
-const tileCountY = canvas.height / tileSize;
+
+// This is NEW !
+// Tile and Grid dimensions (updated dynamically)
+let tileSize, tileCountX, tileCountY;
+
+
+// const tileSize = 50;
+// const tileCountX = canvas.width / tileSize;
+// const tileCountY = canvas.height / tileSize;
 
 // ----------------------------------
 // GAME STATE (CHANGES OVER TIME)
