@@ -53,6 +53,8 @@ let foodPosY = 0;
 // ----------------------------------
 // INITIALIZATION AND STARTUP
 // ----------------------------------
+// This is NEW !
+initializeCanvas(); // Set up canvas size
 resetFood(); // Place the first food item on the board before starting the game
 drawStuff(); // Draw the board immediately to prevent blinking
 requestAnimationFrame(gameLoop); // Start the game loop with the initial timestamp
@@ -225,6 +227,26 @@ function drawGrid() {
 // ----------------------------------
 // UTILITY FUNCTIONS
 // ----------------------------------
+
+// This is NEW !
+/**
+ * Initializes the canvas size dynamically based on the viewport dimensions.
+ * 
+ * The canvas size is set to 90% of the smaller dimension (width or height) 
+ * of the viewport to ensure a square aspect ratio and maintain responsiveness
+ * across various devices (e.g., PCs, tablets, and mobile phones).
+ * 
+ * Logs the calculated size to the console for debugging purposes.
+ */
+function initializeCanvas() {
+  // Use 90% of the smallest dimension of the viewport for a square canvas
+  const size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
+
+  canvas.width = size;
+  canvas.height = size;
+
+  console.log(`Canvas size set to: ${size}px`);
+}
 
 /**
  * Randomizes food position and ensures it won't be re-spawn on any part of snake. 
