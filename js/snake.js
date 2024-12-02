@@ -312,8 +312,8 @@ function resetFood() {
     foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
     foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
   } while (
-    tail.some((part) => part.x === foodPosX && part.y === foodPosY) || // On snake body
-    (foodPosX === snakePosX && foodPosY === snakePosY) // On snake head
+    tail.some((part) => part.x === foodPosX && part.y === foodPosY) || // Avoid snake body
+    (foodPosX === snakePosX && foodPosY === snakePosY) // Avoid snake head
   );
   console.log(`Food placed: (${foodPosX}, ${foodPosY})`);
 }
