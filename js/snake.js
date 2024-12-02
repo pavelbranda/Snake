@@ -21,8 +21,8 @@ const gameSettings = {
   fps: 8, 
 };
 
-// Desired grid size (reduce this for fewer tiles)
-const gridSize = 10;
+// Desired grid size (12 is OG size)
+const gridSize = 12;
 
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
