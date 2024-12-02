@@ -18,10 +18,10 @@ const ctx = canvas.getContext("2d");
 // Game Settings
 const gameSettings = {
   wallCollisions: false, // Set to true for wall collisions
-  fps: 8, 
+  fps: 8, // Initially set to 8
 };
 
-// Desired grid size (12 is OG size)
+// Desired grid size (Initially set to 12)
 const gridSize = 12;
 
 // Game Constants
