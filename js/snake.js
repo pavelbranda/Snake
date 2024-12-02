@@ -4,6 +4,7 @@
 
 // Listeners
 document.addEventListener("keydown", keyPush);
+window.addEventListener("resize", resizeCanvas);
 
 // Canvas
 const canvas = document.querySelector("canvas");
@@ -19,6 +20,9 @@ const gameSettings = {
   wallCollisions: false, // Set to true for wall collisions
   fps: 8, 
 };
+
+// Desired grid size (reduce this for fewer tiles)
+const gridSize = 10;
 
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
@@ -42,15 +46,21 @@ let gameIsRunning = true;
 let score = 0;
 
 // Player
-let snakeSpeed = tileSize;
-let snakePosX = 0;
-let snakePosY = canvas.height / 2;
-
-let velocityX = 1;
-let velocityY = 0;
-
+// This is NEW !
+let snakeSpeed, snakePosX, snakePosY;
+let velocityX = 1, velocityY = 0;
 let tail = [];
 let snakeLength = 4;
+
+// let snakeSpeed = tileSize;
+// let snakePosX = 0;
+// let snakePosY = canvas.height / 2;
+
+// let velocityX = 1;
+// let velocityY = 0;
+
+// let tail = [];
+// let snakeLength = 4;
 
 // Food
 let foodPosX = 0;
@@ -60,7 +70,8 @@ let foodPosY = 0;
 // INITIALIZATION AND STARTUP
 // ----------------------------------
 // This is NEW !
-initializeCanvas(); // Set up canvas size
+initializeCanvas(); // First, initialize canvas and grid
+resetSnakePosition(); // Ensure the snake starts aligned
 resetFood(); // Place the first food item on the board before starting the game
 drawStuff(); // Draw the board immediately to prevent blinking
 requestAnimationFrame(gameLoop); // Start the game loop with the initial timestamp
@@ -237,49 +248,76 @@ function drawGrid() {
 // This is NEW !
 /**
  * Initializes the canvas size dynamically based on the viewport dimensions.
- * 
- * The canvas size is set to 90% of the smaller dimension (width or height) 
- * of the viewport to ensure a square aspect ratio and maintain responsiveness
- * across various devices (e.g., PCs, tablets, and mobile phones).
- * 
- * Logs the calculated size to the console for debugging purposes.
  */
 function initializeCanvas() {
-  // Use 90% of the smallest dimension of the viewport for a square canvas
   const size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
+  canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure divisible by grid size
+  canvas.height = canvas.width; // Keep it square
 
-  canvas.width = size;
-  canvas.height = size;
-
-  console.log(`Canvas size set to: ${size}px`);
+  updateGrid();
+  console.log(`Canvas initialized: ${canvas.width}x${canvas.height}`);
 }
+
+// This is NEW !
+/**
+ * Updates grid dimensions and tile size based on the canvas size.
+ */
+function updateGrid() {
+  tileSize = canvas.width / gridSize // Adjust tile size based on grid size
+  tileCountX = gridSize; // Fixed grid size
+  tileCountY = gridSize; // Fixed grid size
+  snakeSpeed = tileSize; // Match snake speed with tile size
+}
+
+// This is NEW !
+/**
+ * Resizes the canvas and recalculates grid dimensions dynamically.
+ */
+function resizeCanvas() {
+  // Calculate the size based on viewport dimensions
+  const availableHeight = window.innerHeight - title.offsetHeight;
+  const size = Math.min(window.innerWidth, availableHeight) * 0.9;
+
+  // Round size down to ensure it fits a grid divisible by tileSize
+  // size = Math.floor(size / 20) * 20; // Ensure it's divisible by 20
+
+  canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure divisible by grid size
+  canvas.height = canvas.width; // Keep it square
+
+  updateGrid();
+  resetSnakePosition(); // Align the snake to the updated grid
+  resetFood(); // Recalculate food position
+  drawStuff(); // Redraw the game state
+  console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
+}
+
+// This is NEW !
+/**
+ * Resets the snake's position to the center of the canvas grid.
+ */
+function resetSnakePosition() {
+  snakePosX = Math.floor(tileCountX / 2) * tileSize; // Center X
+  snakePosY = Math.floor(tileCountY / 2) * tileSize; // Center Y
+  snakeSpeed = tileSize; // Ensure the speed matches the grid size
+}
+
+
+
 
 /**
- * Randomizes food position and ensures it won't be re-spawn on any part of snake. 
+ * Randomizes food position within the grid and avoids spawning on the snake.
  */
 function resetFood() {
-  // GAME OVER (nowhere to go)
-  if (snakeLength === tileCountX * tileCountY) {
-    gameOver();
-  }
-
-  foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
-  foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
-
-  // Don't spawn food on snake head
-  if (foodPosX === snakePosX && foodPosY === snakePosY) {
-    resetFood();
-  }
-
-  // Don't spawn food on any snake part
-  if (
-    tail.some(
-      (snakePart) => snakePart.x === foodPosX && snakePart.y === foodPosY
-    )
-  ) {
-    resetFood();
-  }
+  do {
+    foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
+    foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
+  } while (
+    tail.some((part) => part.x === foodPosX && part.y === foodPosY) || // On snake body
+    (foodPosX === snakePosX && foodPosY === snakePosY) // On snake head
+  );
+  console.log(`Food placed: (${foodPosX}, ${foodPosY})`);
 }
+
 
 /**
  * Ends the game and display the final score.
@@ -291,18 +329,19 @@ function gameOver() {
 }
 
 // THIS IS NEW!
+/**
+ * Resizes the canvas and recalculates grid dimensions dynamically.
+ */
 function resizeCanvas() {
-  // Get the available height minus the score element height
   const availableHeight = window.innerHeight - title.offsetHeight;
-  console.log(`Available height for canvas: ${availableHeight}px`);
-
-  // Set the canvas size to 90% of the smallest viewport dimension
-  const newSize = Math.min(window.innerWidth, availableHeight) * 0.9;
-  console.log(`Canvas resized to: ${newSize}px`); 
-
-  // Update the canvas width and height
-  canvas.width = newSize;
-  canvas.height = newSize;
+  const size = Math.min(window.innerWidth, availableHeight) * 0.9;
+  canvas.width = Math.floor(size / 20) * 20; // Ensure divisible by 20
+  canvas.height = canvas.width; // Keep it square
+  updateGrid();
+  resetSnakePosition(); // Align snake
+  resetFood(); // Recalculate food
+  drawStuff(); // Redraw game state
+  console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
 }
 
 // Call resizeCanvas initially and on window resize
@@ -356,3 +395,5 @@ function keyPush(event) {
       break;
   }
 }
+
+
