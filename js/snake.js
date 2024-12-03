@@ -22,7 +22,7 @@ const gameSettings = {
 };
 
 // Desired grid size (Initially set to 12)
-const gridSize = 10;
+const gridSize = 12;
 
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
@@ -133,20 +133,23 @@ function moveStuff() {
  */
 function goThroughWalls() {
   // Handle horizontal border go through
-  if (snakePosX > canvas.width - tileSize) {
+  if (snakePosX >= canvas.width) {
     snakePosX = 0;
-     }
-  if (snakePosX < 0) {
-    snakePosX = canvas.width;
-    }
+  } else if (snakePosX < 0) {
+    snakePosX = canvas.width - tileSize;
+  }
 
-    // Handle vertical border go through
-  if (snakePosY > canvas.height - tileSize) {
+
+  // Handle vertical border go through
+  if (snakePosY >= canvas.height) {
     snakePosY = 0;
-    }
-  if (snakePosY < 0) {
-    snakePosY = canvas.height;
-    }
+  } else if (snakePosY < 0) {
+    snakePosY = canvas.height - tileSize;
+  }
+
+  // Snap to grid to avoid misalignment
+  snakePosX = Math.round(snakePosX / tileSize) * tileSize;
+  snakePosY = Math.round(snakePosY / tileSize) * tileSize;
 }
 
 /**
@@ -251,11 +254,16 @@ function drawGrid() {
  */
 function initializeCanvas() {
   const size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
-  canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure divisible by grid size
-  canvas.height = canvas.width; // Keep it square
+  // This is NEW !
+  canvas.width = size;
+  canvas.height = size; 
+  // canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure width divisible by gridSize
+  // canvas.height = canvas.width; // Keep square aspect ratio
 
-  updateGrid();
-  console.log(`Canvas initialized: ${canvas.width}x${canvas.height}`);
+  updateGrid(); // Recalculate grid variables
+  // This is NEW !
+  resetSnakePosition(); // Align the snake with the grid
+  console.log(`Canvas initialized: ${canvas.width}x${canvas.height}, Tile size: ${tileSize}`);
 }
 
 // This is NEW !
@@ -263,9 +271,11 @@ function initializeCanvas() {
  * Updates grid dimensions and tile size based on the canvas size.
  */
 function updateGrid() {
-  tileSize = canvas.width / gridSize // Adjust tile size based on grid size
-  tileCountX = gridSize; // Fixed grid size
-  tileCountY = gridSize; // Fixed grid size
+  // tileSize = canvas.width / gridSize // Tile size depends on gridSize
+  // This is NEW !
+  tileSize = canvas.width / gridSize; // Ensure consistent tile size
+  tileCountX = gridSize; // Fixed number of tiles on the X-axis
+  tileCountY = gridSize; // Fixed number of tiles on the Y-axis
   snakeSpeed = tileSize; // Match snake speed with tile size
 }
 
@@ -276,17 +286,20 @@ function updateGrid() {
 function resizeCanvas() {
   // Calculate the size based on viewport dimensions
   const availableHeight = window.innerHeight - title.offsetHeight;
-  const size = Math.min(window.innerWidth, availableHeight) * 0.9;
+  const size = Math.floor(Math.min(window.innerWidth, availableHeight) * 0.9 / gridSize);
 
   // Round size down to ensure it fits a grid divisible by tileSize
   // size = Math.floor(size / 20) * 20; // Ensure it's divisible by 20
 
-  canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure divisible by grid size
-  canvas.height = canvas.width; // Keep it square
+  // This is NEW !
+  canvas.width = size;
+  canvas.height = size; 
+  // canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure divisible by grid size
+  // canvas.height = canvas.width; // Maintain square aspect ratio
 
-  updateGrid();
+  updateGrid(); // Recalculate grid variables
   resetSnakePosition(); // Align the snake to the updated grid
-  resetFood(); // Recalculate food position
+  resetFood(); // Ensure food is placed correctly
   drawStuff(); // Redraw the game state
   console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
 }
@@ -296,9 +309,9 @@ function resizeCanvas() {
  * Resets the snake's position to the center of the canvas grid.
  */
 function resetSnakePosition() {
-  snakePosX = Math.floor(tileCountX / 2) * tileSize; // Center X
-  snakePosY = Math.floor(tileCountY / 2) * tileSize; // Center Y
-  snakeSpeed = tileSize; // Ensure the speed matches the grid size
+  snakePosX = Math.round(tileCountX / 2) * tileSize; // Center X
+  snakePosY = Math.round(tileCountY / 2) * tileSize; // Center Y
+  // snakeSpeed = tileSize; // Ensure the speed matches the grid size
 }
 
 
@@ -309,8 +322,8 @@ function resetSnakePosition() {
  */
 function resetFood() {
   do {
-    foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
-    foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
+    foodPosX = Math.round(Math.random() * (tileCountX - 1)) * tileSize;
+    foodPosY = Math.round(Math.random() * (tileCountY - 1)) * tileSize;
   } while (
     tail.some((part) => part.x === foodPosX && part.y === foodPosY) || // Avoid snake body
     (foodPosX === snakePosX && foodPosY === snakePosY) // Avoid snake head
