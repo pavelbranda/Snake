@@ -22,7 +22,7 @@ const gameSettings = {
 };
 
 // Desired grid size (Initially set to 12)
-const gridSize = 12;
+const gridSize = 10;
 
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
