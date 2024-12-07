@@ -27,14 +27,8 @@ const gridSize = 12;
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
 
-// This is NEW !
 // Tile and Grid dimensions (updated dynamically)
 let tileSize, tileCountX, tileCountY;
-
-
-// const tileSize = 50;
-// const tileCountX = canvas.width / tileSize;
-// const tileCountY = canvas.height / tileSize;
 
 // ----------------------------------
 // GAME STATE (CHANGES OVER TIME)
@@ -46,21 +40,10 @@ let gameIsRunning = true;
 let score = 0;
 
 // Player
-// This is NEW !
 let snakeSpeed, snakePosX, snakePosY;
 let velocityX = 1, velocityY = 0;
 let tail = [];
 let snakeLength = 4;
-
-// let snakeSpeed = tileSize;
-// let snakePosX = 0;
-// let snakePosY = canvas.height / 2;
-
-// let velocityX = 1;
-// let velocityY = 0;
-
-// let tail = [];
-// let snakeLength = 4;
 
 // Food
 let foodPosX = 0;
@@ -69,7 +52,6 @@ let foodPosY = 0;
 // ----------------------------------
 // INITIALIZATION AND STARTUP
 // ----------------------------------
-// This is NEW !
 initializeCanvas(); // First, initialize canvas and grid
 resetSnakePosition(); // Ensure the snake starts aligned
 resetFood(); // Place the first food item on the board before starting the game
@@ -103,8 +85,6 @@ function gameLoop(currentTime) {
 /**
  * MOVE EVERYTHING - updates snake position, check collisions, handle tail grown.
  */
-
-
 function moveStuff() {
   // NEW - update the direction when snake move 
   // Apply the next direction
@@ -145,7 +125,6 @@ function goThroughWalls() {
   } else if (snakePosX < 0) {
     snakePosX = canvas.width - tileSize;
   }
-
 
   // Handle vertical border go through
   if (snakePosY >= canvas.height) {
@@ -264,7 +243,6 @@ function drawGrid() {
 // UTILITY FUNCTIONS
 // ----------------------------------
 
-// This is NEW !
 /**
  * Initializes the canvas size dynamically based on the viewport dimensions.
  */
@@ -274,25 +252,20 @@ function initializeCanvas() {
   canvas.height = size; 
 
   updateGrid(); // Recalculate grid variables
-  // This is NEW !
   resetSnakePosition(); // Align the snake with the grid
   console.log(`Canvas initialized: ${canvas.width}x${canvas.height}, Tile size: ${tileSize}`);
 }
 
-// This is NEW !
 /**
  * Updates grid dimensions and tile size based on the canvas size.
  */
 function updateGrid() {
-  // tileSize = canvas.width / gridSize // Tile size depends on gridSize
-  // This is NEW !
   tileSize = canvas.width / gridSize; // Ensure consistent tile size
   tileCountX = gridSize; // Fixed number of tiles on the X-axis
   tileCountY = gridSize; // Fixed number of tiles on the Y-axis
   snakeSpeed = tileSize; // Match snake speed with tile size
 }
 
-// This is NEW !
 /**
  * Resizes the canvas and recalculates grid dimensions dynamically.
  */
@@ -310,7 +283,6 @@ function resizeCanvas() {
   console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
 }
 
-// This is NEW !
 /**
  * Resets the snake's position to the center of the canvas grid.
  */
@@ -319,9 +291,6 @@ function resetSnakePosition() {
   snakePosY = Math.round(tileCountY / 2) * tileSize; // Center Y
   // snakeSpeed = tileSize; // Ensure the speed matches the grid size
 }
-
-
-
 
 /**
  * Randomizes food position within the grid and avoids spawning on the snake.
@@ -337,7 +306,6 @@ function resetFood() {
   console.log(`Food placed: (${foodPosX}, ${foodPosY})`);
 }
 
-
 /**
  * Ends the game and display the final score.
  * Wait for user to restart the game by pushing a keyboard.
@@ -347,7 +315,6 @@ function gameOver() {
   gameIsRunning = false;
 }
 
-// THIS IS NEW!
 /**
  * Resizes the canvas and recalculates grid dimensions dynamically.
  */
@@ -393,32 +360,24 @@ function keyPush(event) {
       if (velocityX !== 1) { // Prevent reversing right
         nextVelocityX = -1;
         nextVelocityY = 0;
-        // velocityX = -1;
-        //velocityY = 0;
       }
       break;
     case "ArrowUp":
       if (velocityY !== 1) { // Prevent reversing down
         nextVelocityX = 0;
         nextVelocityY = -1;
-        // velocityX = 0;
-        // velocityY = -1;
       }
       break;
     case "ArrowRight":
       if (velocityX !== -1) { // Prevent reversing left
         nextVelocityX = 1;
         nextVelocityY = 0;
-        // velocityX = 1;
-        // velocityY = 0;
       }
       break;
     case "ArrowDown":
       if (velocityY !== -1) { // Prevent reversing up
         nextVelocityX = 0;
         nextVelocityY = 1;
-        // velocityX = 0;
-        // velocityY = 1;
       }
       break;
     default:
