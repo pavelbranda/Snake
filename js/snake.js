@@ -103,7 +103,14 @@ function gameLoop(currentTime) {
 /**
  * MOVE EVERYTHING - updates snake position, check collisions, handle tail grown.
  */
+
+
 function moveStuff() {
+  // NEW - update the direction when snake move 
+  // Apply the next direction
+  velocityX = nextVelocityX;
+  velocityY = nextVelocityY;
+
   // Update snake position
   snakePosX += snakeSpeed * velocityX;
   snakePosY += snakeSpeed * velocityY;
@@ -170,50 +177,26 @@ function checkWallCollision() {
 /**
  * GAME OVER (crash into myself)
  */
-
-// NEW
-/*
-function checkFoodCollision() {
-  if (
-    Math.abs(snakePosX - foodPosX) < 0.01 &&
-    Math.abs(snakePosY - foodPosY) < 0.01
-  ) {
-    title.textContent = ++score;
-    snakeLength++;
-    resetFood();
-  }
-}
-*/
-
-// OLD
 function checkTailCollision() {
+  let collisionDetected = false;
+
   tail.forEach((snakePart) => {
     if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
-      gameOver();
+      // Highlight the tile when collision occured
+      rectangle("red", snakePart.x, snakePart.y, tileSize, tileSize);
+      collisionDetected = true;
     }
   });
-}
 
+  if (collisionDetected) {
+    console.log("Collision detected! Game over.")
+    gameOver();
+  }
+}
 
 /**
- * Increase score and grow the snake whe eat food.
+ * Increase score and grow the snake when eat food.
  */
-
-// NEW
-/*
-function checkTailCollision() {
-  tail.forEach((snakePart) => {
-    if (
-      Math.abs(snakePosX - snakePart.x) < 0.01 &&
-      Math.abs(snakePosY - snakePart.y) < 0.01
-    ) {
-      gameOver();
-    }
-  });
-}
-*/
-
-// OLD
 function checkFoodCollision() {
   if (snakePosX === foodPosX && snakePosY === foodPosY) {
     title.textContent = ++score;
@@ -392,6 +375,11 @@ window.addEventListener("resize", resizeCanvas);
 /**
  * KEYBOARD - game controls.
  */
+
+// NEW - to store the upcoming direction
+let nextVelocityX = 1; // Start moving right
+let nextVelocityY = 0;
+
 function keyPush(event) {
   // Prevent default behavior for arrow keyPush
   const keysToPrevent = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];  // What about backspace ?!
@@ -402,27 +390,35 @@ function keyPush(event) {
   // Handle game controls
   switch (event.key) {
     case "ArrowLeft":
-      if (velocityX !== 1) {
-        velocityX = -1;
-        velocityY = 0;
+      if (velocityX !== 1) { // Prevent reversing right
+        nextVelocityX = -1;
+        nextVelocityY = 0;
+        // velocityX = -1;
+        //velocityY = 0;
       }
       break;
     case "ArrowUp":
-      if (velocityY !== 1) {
-        velocityX = 0;
-        velocityY = -1;
+      if (velocityY !== 1) { // Prevent reversing down
+        nextVelocityX = 0;
+        nextVelocityY = -1;
+        // velocityX = 0;
+        // velocityY = -1;
       }
       break;
     case "ArrowRight":
-      if (velocityX !== -1) {
-        velocityX = 1;
-        velocityY = 0;
+      if (velocityX !== -1) { // Prevent reversing left
+        nextVelocityX = 1;
+        nextVelocityY = 0;
+        // velocityX = 1;
+        // velocityY = 0;
       }
       break;
     case "ArrowDown":
-      if (velocityY !== -1) {
-        velocityX = 0;
-        velocityY = 1;
+      if (velocityY !== -1) { // Prevent reversing up
+        nextVelocityX = 0;
+        nextVelocityY = 1;
+        // velocityX = 0;
+        // velocityY = 1;
       }
       break;
     default:
