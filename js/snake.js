@@ -55,11 +55,14 @@ let tileSize, tileCountX, tileCountY;
 // ----------------------------------
 // INITIALIZATION AND STARTUP
 // ----------------------------------
-initializeCanvas(); // First, initialize canvas and grid
-resetSnakePosition(); // Ensure the snake starts aligned
-resetFood(); // Place the first food item on the board before starting the game
-drawStuff(); // Draw the board immediately to prevent blinking
-requestAnimationFrame(gameLoop); // Start the game loop with the initial timestamp
+function startGame() {
+  initializeCanvas(); // First, initialize canvas and grid
+  resetSnakePosition(); // Ensure the snake starts aligned
+  resetFood(); // Place the first food item on the board before starting the game
+  drawStuff(); // Draw the board immediately to prevent blinking
+  requestAnimationFrame(gameLoop); // Start the game loop with the initial timestamp
+}
+startGame();
 
 // ----------------------------------
 // MAIN GAME LOOP
