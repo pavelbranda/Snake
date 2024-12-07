@@ -170,6 +170,22 @@ function checkWallCollision() {
 /**
  * GAME OVER (crash into myself)
  */
+
+// NEW
+/*
+function checkFoodCollision() {
+  if (
+    Math.abs(snakePosX - foodPosX) < 0.01 &&
+    Math.abs(snakePosY - foodPosY) < 0.01
+  ) {
+    title.textContent = ++score;
+    snakeLength++;
+    resetFood();
+  }
+}
+*/
+
+// OLD
 function checkTailCollision() {
   tail.forEach((snakePart) => {
     if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
@@ -178,9 +194,26 @@ function checkTailCollision() {
   });
 }
 
+
 /**
  * Increase score and grow the snake whe eat food.
  */
+
+// NEW
+/*
+function checkTailCollision() {
+  tail.forEach((snakePart) => {
+    if (
+      Math.abs(snakePosX - snakePart.x) < 0.01 &&
+      Math.abs(snakePosY - snakePart.y) < 0.01
+    ) {
+      gameOver();
+    }
+  });
+}
+*/
+
+// OLD
 function checkFoodCollision() {
   if (snakePosX === foodPosX && snakePosY === foodPosY) {
     title.textContent = ++score;
@@ -253,12 +286,9 @@ function drawGrid() {
  * Initializes the canvas size dynamically based on the viewport dimensions.
  */
 function initializeCanvas() {
-  const size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
-  // This is NEW !
+  const size = Math.floor(Math.min(window.innerWidth, window.innerHeight)) * 0.9 / gridSize; // Ensures divisibility
   canvas.width = size;
   canvas.height = size; 
-  // canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure width divisible by gridSize
-  // canvas.height = canvas.width; // Keep square aspect ratio
 
   updateGrid(); // Recalculate grid variables
   // This is NEW !
@@ -286,17 +316,10 @@ function updateGrid() {
 function resizeCanvas() {
   // Calculate the size based on viewport dimensions
   const availableHeight = window.innerHeight - title.offsetHeight;
-  const size = Math.floor(Math.min(window.innerWidth, availableHeight) * 0.9 / gridSize);
-
-  // Round size down to ensure it fits a grid divisible by tileSize
-  // size = Math.floor(size / 20) * 20; // Ensure it's divisible by 20
-
-  // This is NEW !
+  const size = Math.floor(Math.min(window.innerWidth, availableHeight) * 0.9 / gridSize) * gridSize; // Ensure divisibility
   canvas.width = size;
   canvas.height = size; 
-  // canvas.width = Math.floor(size / gridSize) * gridSize; // Ensure divisible by grid size
-  // canvas.height = canvas.width; // Maintain square aspect ratio
-
+  
   updateGrid(); // Recalculate grid variables
   resetSnakePosition(); // Align the snake to the updated grid
   resetFood(); // Ensure food is placed correctly
