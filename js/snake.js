@@ -315,21 +315,6 @@ function gameOver() {
   gameIsRunning = false;
 }
 
-/**
- * Resizes the canvas and recalculates grid dimensions dynamically.
- */
-function resizeCanvas() {
-  const availableHeight = window.innerHeight - title.offsetHeight;
-  const size = Math.min(window.innerWidth, availableHeight) * 0.9;
-  canvas.width = Math.floor(size / 20) * 20; // Ensure divisible by 20
-  canvas.height = canvas.width; // Keep it square
-  updateGrid();
-  resetSnakePosition(); // Align snake
-  resetFood(); // Recalculate food
-  drawStuff(); // Redraw game state
-  console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
-}
-
 // Call resizeCanvas initially and on window resize
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
