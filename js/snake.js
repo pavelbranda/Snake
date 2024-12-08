@@ -37,10 +37,15 @@ const gameState = {
     nextVelocityX: 1,
     nextVelocityY: 0,
   },
+  grid: {
+    tileSize: 0,
+    tileCountX: 0,
+    tileCountY: 0,
+  },
   food: {
     x: 0, // Food X position
     y: 0, // Food Y position
-  },
+  }
 };
 
 // Desired grid size (Initially set to 12)
@@ -48,9 +53,6 @@ const gridSize = 12;
 
 // Game Constants
 const interval = 1000 / gameSettings.fps; // Interval between frames in miliseconds
-
-// Tile and Grid dimensions (updated dynamically)
-let tileSize, tileCountX, tileCountY;
 
 // ----------------------------------
 // INITIALIZATION AND STARTUP
@@ -118,10 +120,6 @@ function moveStuff() {
   if (gameState.snake.tail.length > gameState.snake.length) {
     gameState.snake.tail.shift(); // Remove the oldest tail segment
   }
-  
-
-
-  // gameState.snake.tail = gameState.snake.tail.slice(-1 * gameState.snake.length); // Keep only the latest positions up to the length of the snake 
 }
 
 // ----------------------------------
@@ -136,19 +134,19 @@ function goThroughWalls() {
   if (gameState.snake.x >= canvas.width) {
     gameState.snake.x = 0;
   } else if (gameState.snake.x < 0) {
-    gameState.snake.x = canvas.width - tileSize;
+    gameState.snake.x = canvas.width - gameState.grid.tileSize;
   }
 
   // Handle vertical border go through
   if (gameState.snake.y >= canvas.height) {
     gameState.snake.y = 0;
   } else if (gameState.snake.y < 0) {
-    gameState.snake.y = canvas.height - tileSize;
+    gameState.snake.y = canvas.height - gameState.grid.tileSize;
   }
 
   // Snap to grid to avoid misalignment
-  gameState.snake.x = Math.round(gameState.snake.x / tileSize) * tileSize;
-  gameState.snake.y = Math.round(gameState.snake.y / tileSize) * tileSize;
+  gameState.snake.x = Math.round(gameState.snake.x / gameState.grid.tileSize) * gameState.grid.tileSize;
+  gameState.snake.y = Math.round(gameState.snake.y / gameState.grid.tileSize) * gameState.grid.tileSize;
 }
 
 /**
@@ -156,12 +154,12 @@ function goThroughWalls() {
  */
 function checkWallCollision() {
   // Check horizontal border collision
-  if (gameState.snake.x > canvas.width - tileSize || gameState.snake.x < 0) {
+  if (gameState.snake.x > canvas.width - gameState.grid.tileSize || gameState.snake.x < 0) {
     gameOver();
      }
 
   // Check vertical border collision
-  if (gameState.snake.y > canvas.height - tileSize || gameState.snake.y < 0) {
+  if (gameState.snake.y > canvas.height - gameState.grid.tileSize || gameState.snake.y < 0) {
     gameOver();
     }  
 }
@@ -175,7 +173,7 @@ function checkTailCollision() {
   gameState.snake.tail.forEach((snakePart) => {
     if (gameState.snake.x === snakePart.x && gameState.snake.y === snakePart.y) {
       // Highlight the tile when collision occured
-      rectangle("red", snakePart.x, snakePart.y, tileSize, tileSize);
+      rectangle("red", snakePart.x, snakePart.y, gameState.grid.tileSize, gameState.grid.tileSize);
       collisionDetected = true;
     }
   });
@@ -211,14 +209,14 @@ function checkFoodCollision() {
 function drawStuff() {
   rectangle("#f1c232", 0, 0, canvas.width, canvas.height); // Background
   drawGrid(); // Grid lines
-  circle("#05abd7", gameState.food.x, gameState.food.y, tileSize, tileSize); // Food
+  circle("#05abd7", gameState.food.x, gameState.food.y, gameState.grid.tileSize, gameState.grid.tileSize); // Food
 
   // Snake tail
   gameState.snake.tail.forEach((snakePart) =>
-    circle("#555", snakePart.x, snakePart.y, tileSize, tileSize)
+    circle("#555", snakePart.x, snakePart.y, gameState.grid.tileSize, gameState.grid.tileSize)
   );
 
-  circle("black", gameState.snake.x, gameState.snake.y, tileSize, tileSize); // Snake head
+  circle("black", gameState.snake.x, gameState.snake.y, gameState.grid.tileSize, gameState.grid.tileSize); // Snake head
 }
 
 /**
@@ -235,7 +233,7 @@ function rectangle(color, x, y, width, height) {
 function circle(color, x, y, width, height) {
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc(x + tileSize / 2, y + tileSize / 2, tileSize / 2, 0, 2 * Math.PI)
+  ctx.arc(x + gameState.grid.tileSize / 2, y + gameState.grid.tileSize / 2, gameState.grid.tileSize / 2, 0, 2 * Math.PI)
   ctx.fill();
 }
 
@@ -243,14 +241,14 @@ function circle(color, x, y, width, height) {
  * Draw the grid.
  */
 function drawGrid() {
-  for (let i = 0; i < tileCountX; i++) {    // No. of tiles on X Axis
-    for (let j = 0; j < tileCountY; j++) {  // No. of tiles on Y Axis
+  for (let i = 0; i < gameState.grid.tileCountX; i++) {    // No. of tiles on X Axis
+    for (let j = 0; j < gameState.grid.tileCountY; j++) {  // No. of tiles on Y Axis
       rectangle(
         "#fff",
-        tileSize * i,
-        tileSize * j,
-        tileSize - 1,
-        tileSize - 1
+        gameState.grid.tileSize * i,
+        gameState.grid.tileSize * j,
+        gameState.grid.tileSize - 1,
+        gameState.grid.tileSize - 1
       );
     }
   }
@@ -270,17 +268,17 @@ function initializeCanvas() {
 
   updateGrid(); // Recalculate grid variables
   resetSnakePosition(); // Align the snake with the grid
-  console.log(`Canvas initialized: ${canvas.width}x${canvas.height}, Tile size: ${tileSize}`);
+  console.log(`Canvas initialized: ${canvas.width}x${canvas.height}, Tile size: ${gameState.grid.tileSize}`);
 }
 
 /**
  * Updates grid dimensions and tile size based on the canvas size.
  */
 function updateGrid() {
-  tileSize = canvas.width / gridSize; // Ensure consistent tile size
-  tileCountX = gridSize; // Fixed number of tiles on the X-axis
-  tileCountY = gridSize; // Fixed number of tiles on the Y-axis
-  gameState.snake.speed = tileSize; // Match snake speed with tile size
+  gameState.grid.tileSize = canvas.width / gridSize; // Ensure consistent tile size
+  gameState.grid.tileCountX = gridSize; // Fixed number of tiles on the X-axis
+  gameState.grid.tileCountY = gridSize; // Fixed number of tiles on the Y-axis
+  gameState.snake.speed = gameState.grid.tileSize; // Match snake speed with tile size
 }
 
 /**
@@ -304,9 +302,8 @@ function resizeCanvas() {
  * Resets the snake's position to the center of the canvas grid.
  */
 function resetSnakePosition() {
-  gameState.snake.x = Math.round(tileCountX / 2) * tileSize; // Center X
-  gameState.snake.y = Math.round(tileCountY / 2) * tileSize; // Center Y
-  // snakeSpeed = tileSize; // Ensure the speed matches the grid size
+  gameState.snake.x = Math.round(gameState.grid.tileCountX / 2) * gameState.grid.tileSize; // Center X
+  gameState.snake.y = Math.round(gameState.grid.tileCountY / 2) * gameState.grid.tileSize; // Center Y
 }
 
 /**
@@ -314,8 +311,8 @@ function resetSnakePosition() {
  */
 function resetFood() {
   do {
-    gameState.food.x = Math.floor(Math.random() * tileCountX) * tileSize;
-    gameState.food.y = Math.floor(Math.random() * tileCountY) * tileSize;
+    gameState.food.x = Math.floor(Math.random() * gameState.grid.tileCountX) * gameState.grid.tileSize;
+    gameState.food.y = Math.floor(Math.random() * gameState.grid.tileCountY) * gameState.grid.tileSize;
   } while (
     gameState.snake.tail.some((part) => part.x === gameState.food.x && part.y === gameState.food.y) || // Avoid snake body
     (gameState.food.x === gameState.snake.x && gameState.food.y === gameState.snake.y) // Avoid snake head
