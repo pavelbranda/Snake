@@ -58,6 +58,7 @@ const interval = 1000 / gameSettings.fps; // Interval between frames in miliseco
 // INITIALIZATION AND STARTUP
 // ----------------------------------
 function startGame() {
+  setSnakeStartPosition("left-edge"); // Choose "center" or "left-edge"
   initializeCanvas(); // First, initialize canvas and grid
   resetSnakePosition(); // Ensure the snake starts aligned
   resetFood(); // Place the first food item on the board before starting the game
@@ -305,11 +306,29 @@ function resizeCanvas() {
 }
 
 /**
- * Resets the snake's position to the center of the canvas grid.
+ * Sets the snake's starting position dynamically.
+ * Options:
+ * - "center": Starts the snake in the middle of the canvas.
+ * - "left-edge": Starts the snake at the left edge, vertically centered.
+ */
+function setSnakeStartPosition(position = "center") {
+  if (position === "center") {
+    gameState.snake.startX = Math.round(gridSize / 2); // Center X
+    gameState.snake.startY = Math.round(gridSize / 2); // Center Y
+  } else if (position === "left-edge") {
+    gameState.snake.startX = 0; // Left edge X
+    gameState.snake.startY = Math.round(gridSize / 2); // Center Y
+  } else {
+    throw new Error("Invalid position. Use 'center' or 'left-edge'.");
+  }
+}
+
+/**
+ * Resets the snake's position.
  */
 function resetSnakePosition() {
-  gameState.snake.x = Math.round(gameState.grid.tileCountX / 2) * gameState.grid.tileSize; // Center X
-  gameState.snake.y = Math.round(gameState.grid.tileCountY / 2) * gameState.grid.tileSize; // Center Y
+  gameState.snake.x = gameState.snake.startX * gameState.grid.tileSize;
+  gameState.snake.y = gameState.snake.startY * gameState.grid.tileSize;
 }
 
 /**
