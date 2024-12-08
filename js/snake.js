@@ -59,7 +59,7 @@ function startGame() {
   initializeCanvas(); // First, initialize canvas and grid
   resetSnakePosition(); // Ensure the snake starts aligned
   resetFood(); // Place the first food item on the board before starting the game
-  drawStuff(); // Draw the board immediately to prevent blinking
+  drawStuff(); // Draw the initial state board 
   requestAnimationFrame(gameLoop); // Start the game loop with the initial timestamp
 }
 startGame();
@@ -115,7 +115,13 @@ function moveStuff() {
 
   // Update tail
   gameState.snake.tail.push({ x: gameState.snake.x, y: gameState.snake.y });      // Add the current position to the tail
-  gameState.snake.tail = gameState.snake.tail.slice(-1 * gameState.snake.length); // Keep only the latest positions up to the length of the snake 
+  if (gameState.snake.tail.length > gameState.snake.length) {
+    gameState.snake.tail.shift(); // Remove the oldest tail segment
+  }
+  
+
+
+  // gameState.snake.tail = gameState.snake.tail.slice(-1 * gameState.snake.length); // Keep only the latest positions up to the length of the snake 
 }
 
 // ----------------------------------
@@ -184,6 +190,7 @@ function checkTailCollision() {
  * Increase score and grow the snake when eat food.
  */
 function checkFoodCollision() {
+  // Using Math.abs to handle floating-point precision issues for food collision detection
   if (
       Math.abs(gameState.snake.x - gameState.food.x) < 0.01 &&
       Math.abs(gameState.snake.y - gameState.food.y) < 0.01
