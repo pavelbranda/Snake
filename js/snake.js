@@ -93,33 +93,39 @@ function gameLoop(currentTime) {
 /**
  * MOVE EVERYTHING - updates snake position, check collisions, handle tail grown.
  */
+function moveSnake() {
+  // Update snake position
+  gameState.snake.x += gameState.snake.speed * gameState.snake.velocityX;
+  gameState.snake.y += gameState.snake.speed * gameState.snake.velocityY;
+}
+
+function updateTail () {
+  gameState.snake.tail.push({ x: gameState.snake.x, y: gameState.snake.y }); // Add the current position to the tail
+  if (gameState.snake.tail.length > gameState.snake.length) {
+    gameState.snake.tail.shift(); // Remove the oldest tail segment
+  }
+}
+
 function moveStuff() {
-  // NEW - update the direction when snake move 
   // Apply the next direction
   gameState.snake.velocityX = gameState.snake.nextVelocityX;
   gameState.snake.velocityY = gameState.snake.nextVelocityY;
 
+  moveSnake();
+  collisionSystem();
+  updateTail();
+}
 
-  // Update snake position
-  gameState.snake.x += gameState.snake.speed * gameState.snake.velocityX;
-  gameState.snake.y += gameState.snake.speed * gameState.snake.velocityY;
-
+function collisionSystem() {
   // Handle if goThroughWalls or wallCollisions - check gameSettings to decide behavior.
   if (gameSettings.wallCollisions) {
     checkWallCollision();
   } else {
     goThroughWalls();
   }
-
   // Check collisions
   checkTailCollision();
   checkFoodCollision();
-
-  // Update tail
-  gameState.snake.tail.push({ x: gameState.snake.x, y: gameState.snake.y });      // Add the current position to the tail
-  if (gameState.snake.tail.length > gameState.snake.length) {
-    gameState.snake.tail.shift(); // Remove the oldest tail segment
-  }
 }
 
 // ----------------------------------
