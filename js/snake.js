@@ -11,8 +11,8 @@ const canvas = document.querySelector("canvas");
 const title = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
 
-const maxCanvasWidth = 700; // Max canvas width in pixels
-const maxCanvasHeight = 700; // Max canvas height in pixels
+const maxCanvasWidth = 650; // Max canvas width in pixels
+const maxCanvasHeight = 650; // Max canvas height in pixels
 
 // ----------------------------------
 // GAME SETTINGS AND CONSTANTS

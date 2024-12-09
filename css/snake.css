@@ -1,13 +1,31 @@
+/* Global styles */
 body {
-  background: #f1c232;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures the body spans the full height of the viewport */
+  margin: 0; /* Removes default margin */
+  background-color: #f1c232; /* Optional: Set a background color */
+  flex-direction: column; /* Arrange children vertically */
+  /* background: #f1c232; */
+  /* text-align: center; */ 
 }
 
+/* Game container */
+#game-container {
+  display:flex;
+  flex-direction: column; /* Stack the canvas and score vertically */
+  align-items: center; /* Center the content horizontally */
+  margin-top: 20px; /* Add a margin above the game container */
+}
+
+/* Canvas */
 canvas {
-  border: 10px solid #f60143;
+  display: block; /* Remove inline spacing */
+  border: 10px solid #f60143; /* Optional: Add a border for better visibility */
 }
 
-h1 {
+#score {
   margin-top: 0;
   font-size: 4em;
   font-family: "Avenir Next", Verdana;
