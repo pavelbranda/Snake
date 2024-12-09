@@ -33,7 +33,7 @@ canvas {
   letter-spacing: -10px;
 }
 
-h1 strong {
+#score strong {
   font-size: 1.3em;
   display: inline-block;
   margin: 0 0.25em;
