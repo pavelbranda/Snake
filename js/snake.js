@@ -11,6 +11,9 @@ const canvas = document.querySelector("canvas");
 const title = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
 
+const maxCanvasWidth = 700; // Max canvas width in pixels
+const maxCanvasHeight = 700; // Max canvas height in pixels
+
 // ----------------------------------
 // GAME SETTINGS AND CONSTANTS
 // ----------------------------------
@@ -269,7 +272,9 @@ function drawGrid() {
  * Initializes the canvas size dynamically based on the viewport dimensions.
  */
 function initializeCanvas() {
-  const size = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.9 / gridSize) * gridSize; // Ensures tiles fit perfectly in the grid
+  const availableWidth = Math.min(window.innerWidth * 0.9, maxCanvasWidth); // Cap width
+  const availableHeight = Math.min(window.innerHeight * 0.9, maxCanvasHeight); // Cap height
+  const size = Math.floor(Math.min(availableWidth, availableHeight) / gridSize) * gridSize; // Ensure grid alignment
   canvas.width = size;
   canvas.height = size; 
 
@@ -293,8 +298,9 @@ function updateGrid() {
  */
 function resizeCanvas() {
   // Calculate the size based on viewport dimensions
-  const availableHeight = window.innerHeight - title.offsetHeight;
-  const size = Math.floor(Math.min(window.innerWidth, availableHeight) * 0.9 / gridSize) * gridSize; // Ensure divisibility
+  const availableWidth = Math.min(window.innerWidth * 0.9, maxCanvasWidth); // Cap width
+  const availableHeight = Math.min(window.innerHeight * 0.9, maxCanvasHeight); // Cap height
+  const size = Math.floor(Math.min(availableWidth, availableHeight) / gridSize) * gridSize; // Ensure grid alignment
   canvas.width = size;
   canvas.height = size; 
   
