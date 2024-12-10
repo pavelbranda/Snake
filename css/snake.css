@@ -31,6 +31,7 @@ canvas {
   font-family: "Avenir Next", Verdana;
   font-weight: bold;
   letter-spacing: -10px;
+  min-height: 1.3em; /* Reserve space for largest font size */
 }
 
 #score strong {
