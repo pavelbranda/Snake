@@ -7,11 +7,9 @@ body {
   margin: 0; /* Removes default margin */
   background-color: #f1c232; /* Optional: Set a background color */
   flex-direction: column; /* Arrange children vertically */
-  /* background: #f1c232; */
-  /* text-align: center; */ 
 }
 
-/* Game container */
+/* Game container ID selector */
 #game-container {
   display:flex;
   flex-direction: column; /* Stack the canvas and score vertically */
@@ -21,10 +19,11 @@ body {
 
 /* Canvas */
 canvas {
-  display: block; /* Remove inline spacing */
-  border: 10px solid #f60143; /* Optional: Add a border for better visibility */
+  border: 10px solid #f60143; 
+  /* display: block; Remove inline spacing */
 }
 
+/* Score ID selector */
 #score {
   margin-top: 0;
   font-size: 4em;
@@ -39,3 +38,14 @@ canvas {
   display: inline-block;
   margin: 0 0.25em;
 }
+
+/* Responsive styles for small screens */
+@media (max-widht: 600px){
+  canvas {
+    border-width: 5px; /* Thinner border for smaller screens */
+
+  #score {
+    font-size: 3em; /* Adjust font size for better fit on small screens */
+  }
+  }
+} 
