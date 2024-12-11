@@ -20,17 +20,16 @@ body {
 /* Canvas */
 canvas {
   border: 10px solid #f60143; 
-  /* display: block; Remove inline spacing */
 }
 
 /* Score ID selector */
 #score {
   margin-top: 0;
-  font-size: 4em;
+  font-size: 4.5em;
   font-family: "Avenir Next", Verdana;
   font-weight: bold;
   letter-spacing: -10px;
-  min-height: 1.3em; /* Reserve space for largest font size */
+  min-height: 1.5em; /* Reserve space for largest font size */
 }
 
 #score strong {
@@ -40,12 +39,11 @@ canvas {
 }
 
 /* Responsive styles for small screens */
-@media (max-widht: 600px){
+@media (max-width: 600px) {
   canvas {
-    border-width: 5px; /* Thinner border for smaller screens */
-
+    border-width: 7px; /* Thinner border for smaller screens */
+  }   
   #score {
     font-size: 3em; /* Adjust font size for better fit on small screens */
-  }
   }
 } 
