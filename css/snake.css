@@ -7,6 +7,12 @@ body {
   margin: 0; /* Removes default margin */
   background-color: #f1c232; /* Optional: Set a background color */
   flex-direction: column; /* Arrange children vertically */
+
+  /* Prevent scrolling and overscroll behavior on the body */
+  overscroll-behavior: none; /* Prevents pull-to-refresh on mobile */
+  touch-action: none; /* Prevents touch gestures like scroll and zoom */
+}
+
 }
 
 /* Game container ID selector */

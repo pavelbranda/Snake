@@ -6,6 +6,16 @@
 document.addEventListener("keydown", keyPush);
 window.addEventListener("resize", resizeCanvas);
 
+// Prevent touch events from causing scrolling or refresh
+document.addEventListener("touchstart", (e) => {
+  e.preventDefault(); // Prevents touch actions like scrolling
+}, { passive: false });
+
+document.addEventListener("touchmove", (e) => {
+  e.preventDefault(); // Prevents swiping
+}, { passive: false });
+
+
 // Canvas
 const canvas = document.querySelector("canvas");
 const title = document.querySelector("h1");
