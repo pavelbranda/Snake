@@ -1,18 +1,13 @@
 /* Global styles */
 body {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Center the game container horizontally */
+  align-items: center; /* Center the game container vertically */
   min-height: 100vh; /* Ensures the body spans the full height of the viewport */
   margin: 0; /* Removes default margin */
   background-color: #f1c232; /* Optional: Set a background color */
   flex-direction: column; /* Arrange children vertically */
-
-  /* Prevent scrolling and overscroll behavior on the body */
-  overscroll-behavior: none; /* Prevents pull-to-refresh on mobile */
-  touch-action: none; /* Prevents touch gestures like scroll and zoom */
-}
-
+  overflow: hidden; /* Prevent scrolling */
 }
 
 /* Game container ID selector */
@@ -20,17 +15,22 @@ body {
   display:flex;
   flex-direction: column; /* Stack the canvas and score vertically */
   align-items: center; /* Center the content horizontally */
-  margin-top: 20px; /* Add a margin above the game container */
+  justify-content: space-between; /* Distribute space between children */
+  width: 100%; /* Ensure it spans the full width of the body */
+  height: 100vh; /* Ensure full height of the viewport */
+  padding: 1.5em 0; /* Add top and bottom padding */
 }
 
 /* Canvas */
 canvas {
+  display: block; 
   border: 10px solid #f60143; 
 }
 
 /* Score ID selector */
 #score {
-  margin-top: 0;
+  margin-top: 0; /* Use container padding */
+  text-align: center;
   font-size: 4.5em;
   font-family: "Avenir Next", Verdana;
   font-weight: bold;
