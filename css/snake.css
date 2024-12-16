@@ -80,3 +80,46 @@ Responsive styles for smaller screens
     margin-top: 5px; /* Adjust spacing */
   }
 }
+
+/* Landscape Mode Styles */
+@media (orientation: landscape) and (max-height: 500px) {
+  #game-container {
+    flex-direction: row; /* Place canvas and score side by side */
+    padding-top: 0; /* Remove padding for better space utilization */
+    justify-content: center; /* Center horizontally */
+  }
+
+  canvas {
+    max-width: 60vw; /* Shrink canvas width */
+    max-height: 80vh; /* Adjust height */
+    border-width: 5px; /* Thinner border for smaller space */
+  }
+
+  #score {
+    font-size: 2em; /* Smaller font size for the score */
+    margin-top: 0; /* Remove margin */
+  }
+}
+
+/* Optional: Message to Rotate Device */
+@media (orientation: landscape) and (max-height: 350px) {
+  body::before {
+    content: "Please rotate your device to Portrait mode for the best experience.";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    text-align: center;
+    color: #333;
+    background-color: #f1c232;
+    padding: 1em;
+    border: 2px solid #f60143;
+    z-index: 10;
+  }
+
+  #game-container {
+    display: none; /* Hide game content */
+  }
+}
+
