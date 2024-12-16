@@ -32,6 +32,7 @@ body {
 
 /* Canvas */
 canvas {
+  margin: 0 auto; /* Explicitly added to ensure there are no residual spaces */
   display: block;
   max-width: 90vw; /* Responsive width for smaller screens */
   max-height: 80vh; /* Limit height for smaller screens */
