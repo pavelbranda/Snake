@@ -114,7 +114,7 @@ Responsive styles for smaller screens
     color: #333;
     background-color: #f1c232;
     padding: 1em;
-    border: 2px solid #f60143;
+    border: 3px solid #f60143;
     z-index: 10;
   }
 
@@ -123,3 +123,45 @@ Responsive styles for smaller screens
   }
 }
 
+/* Landscape Mode Styles - Optimize for Large Tablets like iPad */
+@media (orientation: landscape) and (min-width: 768px) and (max-width: 1024px) {
+  #game-container {
+    flex-direction: column; /* Keep content vertical */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center horizontally */
+    padding-top: 2%; /* Adjust padding for spacing */
+  }
+
+  canvas {
+    max-width: 70vw; /* Slightly smaller canvas to fit */
+    max-height: 70vh;
+    border-width: 8px; /* Adjust border size */
+  }
+
+  #score {
+    font-size: 2.5em; /* Smaller font size for landscape */
+    margin-top: 10px; /* Adjust spacing */
+  }
+}
+
+/* For Very Small Landscape Heights */
+@media (orientation: landscape) and (max-height: 600px) {
+  body::before {
+    content: "Rotate your device to Portrait mode for the best experience.";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    text-align: center;
+    color: #333;
+    background-color: #f1c232;
+    padding: 1em;
+    border: 2px solid #f60143;
+    z-index: 10;
+  }
+
+  #game-container {
+    display: none; /* Hide game content when screen is too small */
+  }
+}
