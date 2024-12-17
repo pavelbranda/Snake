@@ -45,7 +45,7 @@ canvas {
   min-height: 1.5em; /* Consistent height of the score when game over */
 }
 
-/* Block landscape mode on all mobile devices */
+/* Block landscape mode on mobile devices only */
 @media (orientation: landscape) and (max-width: 1024px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
@@ -58,16 +58,16 @@ canvas {
     color: #333;
     background-color: #f1c232;
     padding: 1em;
-    border: 2px solid #f60143;
+    border: 3px solid #f60143;
     z-index: 10;
   }
 
   #game-container {
-    display: none; /* Hide game content on all mobile devices in landscape */
+    display: none; /* Hide game content on mobile landscape */
   }
 }
 
-/* Show a specific message for very small screens on PC */
+/* Small height screens (PC screens only) */
 @media (min-width: 1025px) and (max-height: 400px) {
   body::before {
     content: "Game area is too small to play.";
@@ -80,14 +80,15 @@ canvas {
     color: #333;
     background-color: #f1c232;
     padding: 1em;
-    border: 2px solid #f60143;
+    border: 3px solid #f60143;
     z-index: 10;
   }
 
   #game-container {
-    display: none; /* Hide game container when height is too small */
+    display: none; /* Hide game container on small-height PCs */
   }
 }
+
 
 /* Adjust padding and margins for devices with safe areas (e.g., newer iPads) */
 @supports (padding: env(safe-area-inset-top)) {
