@@ -1,27 +1,69 @@
-/* Landscape Mode for Tablets like iPad */
-@media (orientation: landscape) and (min-width: 768px) and (max-width: 1024px) {
+/* Global styles */
+body {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  flex-direction: column; /* Arrange items vertically */
+  min-height: 100vh; /* Full viewport height */
+  margin: 0; /* Remove default margin */
+  background-color: #f1c232; /* Background color */
+  overflow: hidden; /* Prevent scrolling */
+  box-sizing: border-box;
+}
+
+/* Game container */
+#game-container {
+  display: flex;
+  flex-direction: column; /* Stack the canvas and score vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  width: 100%; /* Full width */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box; /* Padding won't affect dimensions */
+  padding-top: 2%; /* Slight padding at the top for spacing */
+}
+
+/* Canvas */
+canvas {
+  display: block; /* Remove inline spacing */
+  max-width: 90vw; /* Allow canvas to scale responsively */
+  max-height: 80vh; /* Limit canvas size to fit screen */
+  border: 8px solid #f60143; /* Border */
+  margin: 0 auto; /* Center horizontally */
+}
+
+/* Score */
+#score {
+  margin-top: 10px; /* Spacing below canvas */
+  font-size: 4em; /* Default font size */
+  font-family: "Avenir Next", Verdana;
+  font-weight: bold;
+  letter-spacing: -10px;
+  text-align: center; /* Center text */
+  min-height: 1.5em; /* Ensure consistent height */
+}
+
+/* Responsive Styles */
+
+/* Tablets in landscape mode */
+@media (orientation: landscape) and (max-width: 1024px) {
   #game-container {
-    flex-direction: column; /* Keep content vertical */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    padding-top: 1%; /* Reduce top padding */
-    gap: 5px; /* Add a small gap between canvas and score */
+    padding-top: 1%; /* Adjust top spacing */
   }
 
   canvas {
-    max-width: 65vw; /* Reduce canvas width */
-    max-height: 65vh; /* Reduce canvas height */
-    border-width: 6px; /* Slightly thinner border */
+    max-width: 70vw; /* Reduce canvas size */
+    max-height: 70vh;
+    border-width: 6px; /* Slightly smaller border */
   }
 
   #score {
-    font-size: 2em; /* Reduce font size */
-    margin: 0; /* Remove additional margins */
-    flex-shrink: 1; /* Allow score to adjust its size */
+    font-size: 2.5em; /* Smaller score text */
+    margin-top: 5px; /* Adjust spacing */
   }
 }
 
-/* Very Small Landscape Heights */
+/* Very small landscape screens (e.g., phones) */
 @media (orientation: landscape) and (max-height: 600px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
@@ -39,6 +81,6 @@
   }
 
   #game-container {
-    display: none; /* Hide game content when screen is too small */
+    display: none; /* Hide the game content */
   }
 }
