@@ -21,7 +21,8 @@ body {
   width: 100%; /* Stretch to full width */
   height: 100vh; /* Take full height of the viewport */
   box-sizing: border-box; /* Padding does not affect total dimensions */
-  padding: 1% 0; /* Small vertical padding for spacing */
+  padding-top: env(safe-area-inset-top, 0); /* Add safe area for newer devices */
+  padding-bottom: env(safe-area-inset-bottom, 0); /* Add bottom safe area */
 }
 
 /* Canvas */
@@ -83,7 +84,7 @@ canvas {
   }
 }
 
-/* Adjust padding and margins for devices with safe areas */
+/* Adjust padding and margins for devices with safe areas (e.g. newer iPads) */
 @supports (padding: env(safe-area-inset-top)) {
   #game-container {
     padding-top: calc(5% + env(safe-area-inset-top)); /* Add safe area padding at the top */
