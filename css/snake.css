@@ -129,7 +129,8 @@ Responsive styles for smaller screens
     flex-direction: column; /* Keep content vertical */
     justify-content: center; /* Center content vertically */
     align-items: center; /* Center horizontally */
-    padding-top: 2%; /* Adjust padding for spacing */
+    padding: 0; /* Remove any extra padding */
+    height: 100vh; /* Use the full viewport height */
   }
 
   canvas {
@@ -139,8 +140,12 @@ Responsive styles for smaller screens
   }
 
   #score {
-    font-size: 2.5em; /* Smaller font size for landscape */
-    margin-top: 10px; /* Adjust spacing */
+    position: absolute; /* Fix the score position */
+    top: 20px; /* Distance from the top of the screen */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center adjustment */
+    font-size: 2.5em; /* Keep it readable */
+    margin: 0; /* Remove any margin */
   }
 }
 
