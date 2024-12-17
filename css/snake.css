@@ -1,155 +1,61 @@
 /* Global styles */
 body {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  flex-direction: column; /* Arrange items vertically */
-  min-height: 100vh; /* Full viewport height */
-  margin: 0; /* Remove default margin */
-  background-color: #f1c232; /* Background color */
-  overflow: hidden; /* Prevent scrolling */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f1c232;
+  overflow: hidden;
 }
 
 /* Game container ID selector */
 #game-container {
   display: flex;
-  flex-direction: column; /* Stack the canvas and score vertically */
-  align-items: center; /* Center the content horizontally */
-  justify-content: center; /* Center the content vertically */
-  width: 100%; /* Ensure it spans the full width of the body */
-  height: 100vh; /* Ensure full height of the viewport */
-  padding-top: 5%; /* Relative padding for better adaptability */
-  box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-top: 5%; /* Relative padding for better spacing */
 }
 
-/* Adjust padding for smaller screens (mobile devices) */
-@media (max-width: 768px) {
-  #game-container {
-    padding-top: 2%; /* Less padding on smaller screens */
-  }
-}
-
-
-/* Canvas */
-canvas {
-  margin: 0 auto; /* Explicitly added to ensure there are no residual spaces */
-  display: block;
-  max-width: 90vw; /* Responsive width for smaller screens */
-  max-height: 80vh; /* Limit height for smaller screens */
-  border: 10px solid #f60143; /* Optional border */
-}
-
-/* Score ID selector */
+/* Score styling */
 #score {
-  margin-top: 10px; /* Space between canvas and score */
-  font-size: 4em; /* Default font size */
+  margin-top: 10px;
+  font-size: 4em;
   font-family: "Avenir Next", Verdana;
   font-weight: bold;
   letter-spacing: -10px;
-  text-align: center; /* Center the text */
-  min-height: 1.5em; /* Consistent height */
+  text-align: center;
+  min-height: 1.5em;
 }
 
-/*-----------------------------------
-Responsive styles for smaller screens 
------------------------------------*/
-/* Medium screens - tablets and small laptops */
-@media (max-width: 768px) {
+/* Canvas */
+canvas {
+  display: block;
+  max-width: 90vw;
+  max-height: 80vh;
+  border: 10px solid #f60143;
+}
+
+/* Responsive styles for landscape mode with container queries */
+@container (max-width: 800px) and (orientation: landscape) {
   canvas {
-    max-width: 95vw; /* Make canvas fit smaller screens */
-    max-height: 70vh; /* Reduce height to fit viewport */
-    border-width: 5px; /* Thinner border for small devices */
+    max-width: 70vw;
+    max-height: 70vh;
+    border-width: 8px; /* Adjust canvas border size */
   }
 
   #score {
-    font-size: 2.5em; /* Smaller font size */
-    margin-top: 5px; /* Reduce space between canvas and score */
-  }
-}
-
-/* Small screens - smartphones */
-@media (max-width: 480px) {
-  canvas {
-    max-width: 100vw; /* Allow canvas to take full width on very small screens */
-    max-height: 60vh; /* Reduce height further */
-    border-width: 6px; /* Slightly thicker border for Retina displays */
-  }
-
-  #score {
-    font-size: 2em; /* Even smaller font size for small phones */
+    font-size: 2.5em; /* Smaller font size for better fit */
     margin-top: 5px; /* Adjust spacing */
   }
 }
 
-/* Landscape Mode Styles */
-@media (orientation: landscape) and (max-height: 500px) {
-  #game-container {
-    flex-direction: row; /* Place canvas and score side by side */
-    padding-top: 0; /* Remove padding for better space utilization */
-    justify-content: center; /* Center horizontally */
-  }
-
-  canvas {
-    max-width: 60vw; /* Shrink canvas width */
-    max-height: 80vh; /* Adjust height */
-    border-width: 5px; /* Thinner border for smaller space */
-  }
-
-  #score {
-    font-size: 2em; /* Smaller font size for the score */
-    margin-top: 0; /* Remove margin */
-  }
-}
-
-/* Optional: Message to Rotate Device */
-@media (orientation: landscape) and (max-height: 350px) {
-  body::before {
-    content: "Please rotate your device to Portrait mode for the best experience.";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2em;
-    text-align: center;
-    color: #333;
-    background-color: #f1c232;
-    padding: 1em;
-    border: 3px solid #f60143;
-    z-index: 10;
-  }
-
-  #game-container {
-    display: none; /* Hide game content */
-  }
-}
-
-/* Landscape Mode Styles - Optimize for Large Tablets like iPad */
-@media (orientation: landscape) and (min-width: 768px) and (max-width: 1024px) {
-  #game-container {
-    flex-direction: column; /* Keep content vertical */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center horizontally */
-    padding: 0; /* Remove any extra padding */
-    height: 100vh; /* Use the full viewport height */
-  }
-
-  canvas {
-    max-width: 70vw; /* Slightly smaller canvas to fit */
-    max-height: 70vh;
-    border-width: 8px; /* Adjust border size */
-  }
-
-  #score {
-    position: absolute; /* Fix the score position */
-    top: 20px; /* Distance from the top of the screen */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center adjustment */
-    font-size: 2.5em; /* Keep it readable */
-    margin: 0; /* Remove any margin */
-  }
-}
-
-/* For Very Small Landscape Heights */
+/* Very small screens - fallback for landscape mode */
 @media (orientation: landscape) and (max-height: 600px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
