@@ -9,6 +9,7 @@ body {
   background-color: #f1c232; /* Background color */
   overflow: hidden; /* Prevent scrolling */
   box-sizing: border-box;
+  padding-bottom: env(safe-area-inset-bottom); /* Add safe area padding */
 }
 
 /* Game container */
@@ -19,51 +20,51 @@ body {
   align-items: center; /* Center horizontally */
   width: 100%; /* Full width */
   height: 100vh; /* Full viewport height */
-  box-sizing: border-box; /* Padding won't affect dimensions */
-  padding-top: 2%; /* Slight padding at the top for spacing */
+  box-sizing: border-box; /* Ensure padding does not affect height */
+  padding-top: 2%; /* Slight spacing above */
+  padding-bottom: env(safe-area-inset-bottom); /* Safe area padding at the bottom */
 }
 
 /* Canvas */
 canvas {
-  display: block; /* Remove inline spacing */
+  display: block;
   max-width: 90vw; /* Allow canvas to scale responsively */
-  max-height: 80vh; /* Limit canvas size to fit screen */
+  max-height: 80vh; /* Limit canvas size */
   border: 8px solid #f60143; /* Border */
   margin: 0 auto; /* Center horizontally */
 }
 
 /* Score */
 #score {
-  margin-top: 10px; /* Spacing below canvas */
+  margin-top: 10px; /* Space between canvas and score */
   font-size: 4em; /* Default font size */
   font-family: "Avenir Next", Verdana;
   font-weight: bold;
   letter-spacing: -10px;
   text-align: center; /* Center text */
-  min-height: 1.5em; /* Ensure consistent height */
+  min-height: 1.5em; /* Consistent height */
 }
 
-/* Responsive Styles */
-
-/* Tablets in landscape mode */
+/* Landscape for Tablets and Small Devices */
 @media (orientation: landscape) and (max-width: 1024px) {
   #game-container {
-    padding-top: 1%; /* Adjust top spacing */
+    padding-top: 1%; /* Reduce top padding */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 10px); /* Add margin for gesture bar */
   }
 
   canvas {
-    max-width: 70vw; /* Reduce canvas size */
-    max-height: 70vh;
+    max-width: 70vw; /* Smaller canvas */
+    max-height: 70vh; /* Adjust height */
     border-width: 6px; /* Slightly smaller border */
   }
 
   #score {
-    font-size: 2.5em; /* Smaller score text */
+    font-size: 2.5em; /* Smaller font size */
     margin-top: 5px; /* Adjust spacing */
   }
 }
 
-/* Very small landscape screens (e.g., phones) */
+/* Very Small Landscape Screens */
 @media (orientation: landscape) and (max-height: 600px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
@@ -81,6 +82,6 @@ canvas {
   }
 
   #game-container {
-    display: none; /* Hide the game content */
+    display: none; /* Hide game content */
   }
 }
