@@ -84,28 +84,7 @@ canvas {
   }
 }
 
-/* General Landscape Fix for All Devices */
-@media (orientation: landscape) {
-  #game-container {
-    justify-content: center; /* Center the content vertically */
-    align-items: center; /* Center horizontally */
-    padding-top: 0; /* Remove extra padding */
-    height: 100vh; /* Ensure the container takes the full viewport height */
-  }
-
-  canvas {
-    max-width: 80vw; /* Slightly reduce canvas width */
-    max-height: 70vh; /* Slightly reduce canvas height */
-    border-width: 5px; /* Thinner border for better visibility */
-  }
-
-  #score {
-    font-size: 2.5em; /* Reduce score size for landscape */
-    margin-top: 10px; /* Add space between score and canvas */
-  }
-}
-
-/* Adjust padding and margins for devices with safe areas (e.g., newer iPads) */
+/* Adjust padding and margins for devices with safe areas (e.g. newer iPads) */
 @supports (padding: env(safe-area-inset-top)) {
   #game-container {
     padding-top: calc(5% + env(safe-area-inset-top)); /* Add safe area padding at the top */
@@ -123,6 +102,3 @@ canvas {
     padding: 5% 0; /* Static fallback padding (5% top and bottom) */
   }
 }
-
-
-
