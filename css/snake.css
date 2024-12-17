@@ -20,7 +20,7 @@ body {
   align-items: center; /* Center content horizontally */
   width: 100%; /* Stretch to full width */
   height: 100vh; /* Take full height of the viewport */
-  box-sizing: border-box; /* Padding does not affect total dimensions */
+  box-sizing: border-box; /* Padding won't affect total dimensions */
   padding-top: env(safe-area-inset-top, 0); /* Add safe area for newer devices */
   padding-bottom: env(safe-area-inset-bottom, 0); /* Add bottom safe area */
 }
@@ -31,7 +31,7 @@ canvas {
   max-width: 90vw; /* Canvas takes up a maximum of 90% of the viewport width */
   max-height: 80vh; /* Canvas height is limited to 80% of the viewport height */
   border: 8px solid #f60143; /* Border around the canvas */
-  margin: 0 auto; /* Center horizontally if needed*/
+  margin: 0 auto; /* Center horizontally if needed */
 }
 
 /* Score */
@@ -45,25 +45,8 @@ canvas {
   min-height: 1.5em; /* Consistent height of the score when game over */
 }
 
-/* Landscape Mode - for iPad and Large Devices */
+/* Block landscape mode on all mobile devices */
 @media (orientation: landscape) and (max-width: 1024px) {
-  #game-container {
-    padding: 0; /* Remove extra padding */
-  }
-
-  canvas {
-    max-width: 70vw; /* Make the canvas slightly smaller */
-    max-height: 70vh; /* Reduce height for better fit */
-  }
-
-  #score {
-    font-size: 2.5em; /* Adjust score font size */
-    margin-top: 10px; /* Adjust spacing */
-  }
-}
-
-/* Safe Area for Very Small Heights (e.g., phones in landscape) */
-@media (orientation: landscape) and (max-height: 600px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
     position: absolute;
@@ -80,11 +63,33 @@ canvas {
   }
 
   #game-container {
-    display: none; /* Hide game content on very small heights */
+    display: none; /* Hide game content on all mobile devices in landscape */
   }
 }
 
-/* Adjust padding and margins for devices with safe areas (e.g. newer iPads) */
+/* Show a specific message for very small screens on PC */
+@media (min-width: 1025px) and (max-height: 400px) {
+  body::before {
+    content: "Game area is too small to play.";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    text-align: center;
+    color: #333;
+    background-color: #f1c232;
+    padding: 1em;
+    border: 2px solid #f60143;
+    z-index: 10;
+  }
+
+  #game-container {
+    display: none; /* Hide game container when height is too small */
+  }
+}
+
+/* Adjust padding and margins for devices with safe areas (e.g., newer iPads) */
 @supports (padding: env(safe-area-inset-top)) {
   #game-container {
     padding-top: calc(5% + env(safe-area-inset-top)); /* Add safe area padding at the top */
@@ -100,22 +105,5 @@ canvas {
 @supports not (padding: env(safe-area-inset-top)) {
   #game-container {
     padding: 5% 0; /* Static fallback padding (5% top and bottom) */
-  }
-}
-
-/* Specific fix for iPad 9.7-inch (Landscape Mode) */
-@media (orientation: landscape) and (max-width: 1024px) and (max-height: 768px) {
-  #game-container {
-    padding-top: 2%;
-  }
-
-  canvas {
-    max-width: 75vw;
-    max-height: 70vh;
-  }
-
-  #score {
-    font-size: 2.5em;
-    margin-top: 8px;
   }
 }
