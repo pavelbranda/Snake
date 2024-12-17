@@ -1,36 +1,36 @@
 /* Global styles */
 body {
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  flex-direction: column; /* Arrange items vertically */
-  min-height: 100vh; /* Full viewport height */
-  margin: 0; /* Remove default margin */
+  display: flex; /* Use flexbox to arrange elements */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  flex-direction: column; /* Stack child elements vertically */
+  min-height: 100vh; /* Ensure body takes the full viewport height */
+  margin: 0; /* Remove browser's default margin */
   background-color: #f1c232; /* Background color */
   overflow: hidden; /* Prevent scrolling */
-  box-sizing: border-box;
-  padding-bottom: env(safe-area-inset-bottom); /* Add safe area padding at bottom */
+  box-sizing: border-box; /* Include padding and border in total width/height */
+  padding-bottom: env(safe-area-inset-bottom); /* Add safe area padding at bottom on mobile devices */
 }
 
 /* Game container */
 #game-container {
-  display: flex;
+  display: flex; /* Use flexbox */
   flex-direction: column; /* Stack the canvas and score vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
-  width: 100%; /* Full width */
-  height: 100vh; /* Full viewport height */
-  box-sizing: border-box;
-  padding: 1% 0; /* Balanced vertical padding */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  width: 100%; /* Stretch to full width */
+  height: 100vh; /* Take full height of the viewport */
+  box-sizing: border-box; /* Padding does not affect total dimensions */
+  padding: 1% 0; /* Small vertical padding for spacing */
 }
 
 /* Canvas */
 canvas {
-  display: block;
-  max-width: 90vw; /* Responsive width for smaller screens */
-  max-height: 80vh; /* Limit canvas height */
-  border: 8px solid #f60143; /* Border */
-  margin: 0 auto; /* Center horizontally */
+  display: block; /* Remove any inline spacing */
+  max-width: 90vw; /* Canvas takes up a maximum of 90% of the viewport width */
+  max-height: 80vh; /* Canvas height is limited to 80% of the viewport height */
+  border: 8px solid #f60143; /* Border around the canvas */
+  margin: 0 auto; /* Center horizontally if needed*/
 }
 
 /* Score */
@@ -39,29 +39,29 @@ canvas {
   font-size: 4em; /* Default font size */
   font-family: "Avenir Next", Verdana;
   font-weight: bold;
-  letter-spacing: -10px;
-  text-align: center; /* Center text */
-  min-height: 1.5em; /* Consistent height */
+  letter-spacing: -10px; /* Adjust spacing between letters for styling */
+  text-align: center; /* Center the score text */
+  min-height: 1.5em; /* Consistent height of the score when game over */
 }
 
-/* Landscape Mode Fix for iPad and Large Devices */
+/* Landscape Mode - for iPad and Large Devices */
 @media (orientation: landscape) and (max-width: 1024px) {
   #game-container {
     padding: 0; /* Remove extra padding */
   }
 
   canvas {
-    max-width: 70vw; /* Slightly smaller canvas */
+    max-width: 70vw; /* Make the canvas slightly smaller */
     max-height: 70vh; /* Reduce height for better fit */
   }
 
   #score {
-    font-size: 2.5em; /* Adjust score size */
-    margin-top: 10px; /* Balanced spacing below canvas */
+    font-size: 2.5em; /* Adjust score font size */
+    margin-top: 10px; /* Adjust spacing */
   }
 }
 
-/* Safe Area for Very Small Heights */
+/* Safe Area for Very Small Heights (e.g., phones in landscape) */
 @media (orientation: landscape) and (max-height: 600px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
@@ -82,3 +82,16 @@ canvas {
     display: none; /* Hide game content on very small heights */
   }
 }
+
+/* Adjust padding and margins for devices with safe areas */
+@supports (padding: env(safe-area-inset-top)) {
+  #game-container {
+    padding-top: calc(5% + env(safe-area-inset-top)); /* Add safe area padding at the top */
+    padding-bottom: env(safe-area-inset-bottom); /* Add safe area padding at the bottom */
+  }
+
+  #score {
+    margin-bottom: calc(10px + env(safe-area-inset-bottom)); /* Add bottom margin for score */
+  }
+}
+
