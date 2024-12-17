@@ -96,3 +96,9 @@ canvas {
   }
 }
 
+/* Fallback for older devices without safe-area support */
+@supports not (padding: env(safe-area-inset-top)) {
+  #game-container {
+    padding: 5% 0; /* Static fallback padding (5% top and bottom) */
+  }
+}
