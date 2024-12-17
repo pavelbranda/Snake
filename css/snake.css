@@ -88,3 +88,23 @@ canvas {
     display: none; /* Hide game container on small-height PCs */
   }
 }
+
+
+/* Adjust padding and margins for devices with safe areas (e.g., newer iPads) */
+@supports (padding: env(safe-area-inset-top)) {
+  #game-container {
+    padding-top: calc(5% + env(safe-area-inset-top)); /* Add safe area padding at the top */
+    padding-bottom: env(safe-area-inset-bottom); /* Add safe area padding at the bottom */
+  }
+
+  #score {
+    margin-bottom: calc(10px + env(safe-area-inset-bottom)); /* Add bottom margin for score */
+  }
+}
+
+/* Fallback for older devices without safe-area support */
+@supports not (padding: env(safe-area-inset-top)) {
+  #game-container {
+    padding: 5% 0; /* Static fallback padding (5% top and bottom) */
+  }
+}
