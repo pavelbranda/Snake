@@ -50,7 +50,7 @@ canvas {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
     position: absolute;
-    top: 50%;
+    top: calc(50% + env(safe-area-inset-top, 0)); /* Center vertically with safe-area consideration */
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 1.2em;
