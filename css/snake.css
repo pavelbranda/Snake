@@ -67,6 +67,30 @@ canvas {
   }
 }
 
+
+/* Block landscape mode on iPads (11-inch and 9.7-inch) */
+@media (orientation: landscape) and (min-width: 768px) and (max-width: 1366px) {
+  body::before {
+    content: "Rotate your device to Portrait mode for the best experience.";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    text-align: center;
+    color: #333;
+    background-color: #f1c232;
+    padding: 1em;
+    border: 3px solid #f60143;
+    z-index: 10;
+  }
+
+  #game-container {
+    display: none; /* Hide game content in landscape */
+  }
+}
+
+
 /* Small height screens (PC screens only) */
 @media (min-width: 1025px) and (max-height: 400px) {
   body::before {
