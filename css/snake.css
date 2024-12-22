@@ -46,7 +46,7 @@ canvas {
 }
 
 /* Block landscape mode on mobile devices only */
-@media (orientation: landscape) and (max-width: 1024px) {
+@media (orientation: landscape) and (max-width: 1366px) {
   body::before {
     content: "Rotate your device to Portrait mode for the best experience.";
     position: absolute;
