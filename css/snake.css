@@ -9,7 +9,7 @@ body {
   background-color: #f1c232; /* Background color */
   overflow: hidden; /* Prevent scrolling */
   box-sizing: border-box; /* Include padding and border in total width/height */
-  padding-bottom: env(safe-area-inset-bottom); /* Add safe area padding at bottom on mobile devices */
+  padding-bottom: env(safe-area-inset-bottom, 0); /* Add safe area padding at bottom on mobile devices */
 }
 
 /* Game container */
