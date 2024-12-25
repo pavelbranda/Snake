@@ -6,6 +6,10 @@
 document.addEventListener("keydown", keyPush);
 window.addEventListener("resize", resizeCanvas);
 
+canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
+
 // Prevent touch events from causing scrolling or refresh
 document.addEventListener("touchstart", (e) => {
   e.preventDefault(); // Prevents touch actions like scrolling
@@ -419,5 +423,50 @@ function keyPush(event) {
       // restart game
       if (!gameState.isRunning) location.reload();
       break;
+  }
+}
+
+/**
+ * TOUCH CONTROLS - game controls for touch devices.
+ */
+
+// Variables to track touch positions
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+function handleTouchStart(event) {
+  const touch = event.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+}
+
+function handleTouchMove(event) {
+  const touch = event.touches[0];
+  touchEndX = touch.clientX;
+  touchEndY = touch.clientY;
+}
+
+function handleTouchEnd() {
+  const diffX = touchEndX - touchStartX;
+  const diffY = touchEndY - touchStartY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0 && gameState.snake.velocityX !== -1) {
+      gameState.snake.nextVelocityX = 1;
+      gameState.snake.nextVelocityY = 0;
+    } else if (diffX < 0 && gameState.snake.velocityX !== 1) {
+      gameState.snake.nextVelocityX = -1;
+      gameState.snake.nextVelocityY = 0;
+    }
+  } else {
+    if (diffY > 0 && gameState.snake.velocityY !== -1) {
+      gameState.snake.nextVelocityX = 0;
+      gameState.snake.nextVelocityY = 1;
+    } else if (diffY < 0 && gameState.snake.velocityY !== 1) {
+      gameState.snake.nextVelocityX = 0;
+      gameState.snake.nextVelocityY = -1;
+    }
   }
 }
