@@ -6,10 +6,6 @@
 document.addEventListener("keydown", keyPush);
 window.addEventListener("resize", resizeCanvas);
 
-canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
-canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
-canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
-
 // Prevent touch events from causing scrolling or refresh
 document.addEventListener("touchstart", (e) => {
   e.preventDefault(); // Prevents touch actions like scrolling
@@ -435,6 +431,11 @@ let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
+
+// Add touch event listeners
+canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
 
 function handleTouchStart(event) {
   const touch = event.touches[0];
